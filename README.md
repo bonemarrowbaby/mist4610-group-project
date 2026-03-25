@@ -2,9 +2,24 @@
 
 ## Group Members:
 
-Darryl McNeil: @Hydrxide
+Darryl McNeil
 
-Haylesh Fernandez: hayleshF
+Haylesh Fernandez
 
-Alden
+Alden Majors
+
+Zain Naseer
+
+Italia Roman
+
+
+## Problem Description: 
+
+## Data Model
+
+## Data Dictionary
+
+## Queries
+
+## DB Information
 
