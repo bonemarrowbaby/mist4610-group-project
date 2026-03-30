@@ -1,0 +1,229 @@
+-- =============================================================================
+-- Wilderness Exploration Society (WES) — Sample Data
+-- MIST 4610 | Group Project | Case #1
+-- University of Georgia — Terry College of Business | Spring 2026
+-- =============================================================================
+
+USE WES;
+
+-- =============================================================================
+-- CUSTOMER (10 rows)
+-- =============================================================================
+INSERT INTO Customer (Customer_F_Name, Customer_L_Name, Customer_Phone, Customer_DOB, Customer_Type) VALUES
+('James',   'Carter',   '706-555-0101', '2001-03-15', 'Student'),
+('Maria',   'Lopez',    '706-555-0102', '1998-07-22', 'Student'),
+('David',   'Nguyen',   '706-555-0103', '1975-11-08', 'Faculty/Staff'),
+('Sarah',   'Kim',      '706-555-0104', '1980-04-30', 'Faculty/Staff'),
+('Robert',  'Thompson', '706-555-0105', '1990-09-12', 'Alumni'),
+('Emily',   'Davis',    '706-555-0106', '1992-01-25', 'Alumni'),
+('Marcus',  'Hall',     '706-555-0107', '2002-06-17', 'Student'),
+('Priya',   'Patel',    '706-555-0108', '1999-12-03', 'Student'),
+('Chris',   'Bennett',  '706-555-0109', '1985-08-19', 'Guest'),
+('Laura',   'Simmons',  '706-555-0110', '1997-02-14', 'Guest');
+
+-- =============================================================================
+-- MEMBER (links university customers to Member table)
+-- =============================================================================
+INSERT INTO Member (University_Role, Customer_ID) VALUES
+('Undergraduate Student',   1),
+('Undergraduate Student',   2),
+('Professor',               3),
+('Administrative Staff',    4),
+('Alumni',                  5),
+('Alumni',                  6),
+('Graduate Student',        7),
+('Undergraduate Student',   8);
+
+-- =============================================================================
+-- GUEST (guests sponsored by university members)
+-- =============================================================================
+INSERT INTO Guest (Customer_ID, Sponsor_ID) VALUES
+(9,  1),   -- Chris Bennett sponsored by James Carter
+(10, 5);   -- Laura Simmons sponsored by Robert Thompson
+
+-- =============================================================================
+-- STAFF (8 staff members)
+-- =============================================================================
+INSERT INTO Staff (Staff_F_Name, Staff_L_Name, Staff_Phone) VALUES
+('Tyler',   'Brooks',   '706-555-0201'),
+('Angela',  'Foster',   '706-555-0202'),
+('Kevin',   'Marsh',    '706-555-0203'),
+('Diana',   'Chen',     '706-555-0204'),
+('Brian',   'Walsh',    '706-555-0205'),
+('Nina',    'Ortega',   '706-555-0206'),
+('Samuel',  'Grant',    '706-555-0207'),
+('Chloe',   'Warren',   '706-555-0208');
+
+-- =============================================================================
+-- TRIP_TYPE (8 trip types)
+-- =============================================================================
+INSERT INTO Trip_Type (Trip_Type_Name, Trip_Type_Diff_Lvl, Trip_Type_Fee, Trip_Type_Length_days) VALUES
+('Beginner Kayaking',           'Beginner',     45.00, 1),
+('Intermediate Kayaking',       'Intermediate', 75.00, 2),
+('Advanced Kayaking',           'Advanced',     110.00, 3),
+('Beginner Backpacking',        'Beginner',     50.00, 2),
+('Intermediate Backpacking',    'Intermediate', 85.00, 3),
+('Beginner Rock Climbing',      'Beginner',     60.00, 1),
+('Advanced Rock Climbing',      'Advanced',     120.00, 2),
+('Family Camping',              'Beginner',     35.00, 2);
+
+-- =============================================================================
+-- TRIP_PREREQUISITE
+-- =============================================================================
+INSERT INTO Trip_Prerequisite (Trip_Type_ID, Prerequisite_Trip_Type_ID) VALUES
+(2, 1),   -- Intermediate Kayaking requires Beginner Kayaking
+(3, 2),   -- Advanced Kayaking requires Intermediate Kayaking
+(5, 4),   -- Intermediate Backpacking requires Beginner Backpacking
+(7, 6);   -- Advanced Rock Climbing requires Beginner Rock Climbing
+
+-- =============================================================================
+-- SCHEDULED_TRIP (12 occurrences)
+-- =============================================================================
+INSERT INTO Scheduled_Trip (Trip_Date, Lead_Staff_ID, Assistant_Staff_ID, Trip_Type_ID) VALUES
+('2026-04-05', 1, 2, 1),
+('2026-04-12', 3, 4, 4),
+('2026-04-20', 2, 5, 6),
+('2026-05-03', 1, 3, 2),
+('2026-05-10', 4, 6, 5),
+('2026-05-17', 5, 7, 8),
+('2026-06-01', 6, 8, 3),
+('2026-06-14', 7, 1, 7),
+('2026-06-21', 2, 4, 1),
+('2026-07-04', 3, 5, 4),
+('2025-10-11', 1, 2, 1),
+('2025-11-08', 4, 3, 8);
+
+-- =============================================================================
+-- REGISTRATION (15 registrations)
+-- =============================================================================
+INSERT INTO Registration (Customer_ID, Scheduled_Trip_ID, Registration_Waiver, Registration_Status) VALUES
+(1,  1,  1, 'Confirmed'),
+(2,  1,  1, 'Confirmed'),
+(7,  1,  0, 'Confirmed'),
+(9,  1,  1, 'Waitlisted'),
+(3,  2,  1, 'Confirmed'),
+(4,  2,  1, 'Confirmed'),
+(5,  3,  1, 'Confirmed'),
+(8,  3,  0, 'Confirmed'),
+(1,  4,  1, 'Confirmed'),
+(2,  4,  1, 'Confirmed'),
+(6,  5,  1, 'Confirmed'),
+(10, 6,  1, 'Confirmed'),
+(3,  6,  0, 'Waitlisted'),
+(1,  11, 1, 'Confirmed'),
+(5,  12, 1, 'Cancelled');
+
+-- =============================================================================
+-- EQUIPMENT_TYPE (6 types)
+-- =============================================================================
+INSERT INTO Equipment_Type (Equipment_Name, Student_Rate, Faculty_Alumni_Rate, Guest_Rate) VALUES
+('Osprey Aether 70L Backpack',   2.00, 3.00,  4.00),
+('Big Agnes Copper Spur Tent',   3.00, 4.50,  6.00),
+('Marmot Trestles Sleeping Bag', 1.50, 2.50,  3.50),
+('Perception Kayak',             5.00, 7.50, 10.00),
+('Black Diamond Harness',        2.50, 3.50,  5.00),
+('MSR PocketRocket Stove',       1.00, 1.50,  2.00);
+
+-- =============================================================================
+-- EQUIPMENT_ITEM (15 items)
+-- =============================================================================
+INSERT INTO Equipment_Item (Condition_Rating, Equipment_Type_Equipment_Type_ID) VALUES
+('Good', 1),
+('Good', 1),
+('Fair', 1),
+('Good', 2),
+('Fair', 2),
+('Poor', 2),
+('Good', 3),
+('Good', 3),
+('Good', 4),
+('Fair', 4),
+('Good', 4),
+('Good', 5),
+('Fair', 5),
+('Good', 6),
+('Good', 6);
+
+-- =============================================================================
+-- RENTAL_AGREEMENT (8 agreements)
+-- =============================================================================
+INSERT INTO Rental_Agreement (Rental_Date, Customer_ID, Staff_ID) VALUES
+('2026-04-03', 1, 1),
+('2026-04-03', 2, 2),
+('2026-04-10', 3, 3),
+('2026-04-18', 5, 1),
+('2026-05-01', 7, 4),
+('2026-05-15', 9, 2),
+('2025-10-09', 1, 5),
+('2025-11-06', 4, 6);
+
+-- =============================================================================
+-- RENTAL_AGREEMENT_HAS_EQUIPMENT_ITEM (12 line items)
+-- =============================================================================
+INSERT INTO Rental_Agreement_has_Equipment_Item (Rental_Agreement_Agreement_ID, Equipment_Item_Item_ID, Expected_return_date, Actual_return_date) VALUES
+(1, 1,  '2026-04-06', '2026-04-06'),
+(1, 7,  '2026-04-06', '2026-04-06'),
+(2, 2,  '2026-04-06', '2026-04-07'),
+(2, 4,  '2026-04-06', '2026-04-06'),
+(3, 9,  '2026-04-13', '2026-04-13'),
+(4, 12, '2026-04-21', '2026-04-21'),
+(5, 3,  '2026-05-04', NULL),
+(5, 14, '2026-05-04', NULL),
+(6, 10, '2026-05-18', NULL),
+(7, 5,  '2025-10-12', '2025-10-13'),
+(8, 8,  '2025-11-10', '2025-11-10'),
+(8, 15, '2025-11-10', '2025-11-10');
+
+-- =============================================================================
+-- SUPPLIER (4 suppliers)
+-- =============================================================================
+INSERT INTO Supplier (Supplier_Name, Supplier_Contact_F_name, Supplier_Contact_L_name, Supplier_Phone, Supplier_Email, Supplier_Address) VALUES
+('OutdoorGear Co.',      'Paul',   'Nguyen', '800-555-0301', 'paul@outdoorgear.com',  '123 Trail Rd, Denver CO'),
+('Mountain Supply Inc.', 'Rachel', 'Stone',  '800-555-0302', 'rachel@mtnsupply.com',  '456 Summit Ave, Boulder CO'),
+('Paddle Parts Plus',    'Derek',  'Owens',  '800-555-0303', 'derek@paddleparts.com', '789 River St, Asheville NC'),
+('ClimbRight Parts',     'Jenna',  'Morris', '800-555-0304', 'jenna@climbright.com',  '321 Crag Ln, Chattanooga TN');
+
+-- =============================================================================
+-- PART (8 parts)
+-- =============================================================================
+INSERT INTO Part (Part_Name, Part_Unit_Cost, Part_Stock_Quantity, Supplier_ID) VALUES
+('Tent Pole Replacement',    12.99, 15, 1),
+('Sleeping Bag Zipper Kit',   8.50, 20, 1),
+('Backpack Hip Belt Pad',     9.75,  8, 2),
+('Backpack Frame Stay',      14.00,  5, 2),
+('Kayak Foot Peg Set',       22.50, 12, 3),
+('Kayak Seat Cushion',       18.00,  7, 3),
+('Climbing Harness Buckle',  11.25,  3, 4),
+('Webbing Strap 1in x 10ft',  4.50, 25, 4);
+
+-- =============================================================================
+-- MAINTENANCE_REQUEST (6 requests)
+-- =============================================================================
+INSERT INTO Maintenance_Request (Request_Date, Issue_Description, Priority, Status, Item_ID, Staff_ID) VALUES
+('2026-03-10', 'Tent pole bent and cracked on one side',        'High',   'Closed',      6,  3),
+('2026-03-15', 'Kayak foot pegs loose and slipping during use', 'High',   'Closed',      10, 4),
+('2026-03-20', 'Sleeping bag zipper broken, will not close',    'Medium', 'Closed',      8,  5),
+('2026-04-01', 'Backpack hip belt pad torn and worn through',   'Medium', 'In Progress', 3,  3),
+('2026-04-05', 'Harness buckle cracked, unsafe for use',       'High',   'Open',        13, 6),
+('2026-04-08', 'Kayak seat cushion delaminating',               'Low',    'Open',        11, 4);
+
+-- =============================================================================
+-- MAINTENANCE_LOG (5 log entries)
+-- =============================================================================
+INSERT INTO Maintenance_Log (Maintenance_Date, Work_Done_Desc, Outcome, Maintenance_Count, Cost_of_Maintenance, Maintenance_Request_ID, Performed_by_Staff_ID, Item_ID) VALUES
+('2026-03-12', 'Replaced cracked tent pole section',         'Resolved', 1, 18.50, 1, 3, 6),
+('2026-03-17', 'Replaced both kayak foot peg assemblies',    'Resolved', 1, 35.00, 2, 4, 10),
+('2026-03-22', 'Replaced broken sleeping bag zipper',        'Resolved', 1, 12.00, 3, 5, 8),
+('2026-04-03', 'Removed old hip belt pad, ordered new one',  'Ongoing',  1,  5.00, 4, 3, 3),
+('2026-04-04', 'Installed new hip belt pad and tested fit',  'Resolved', 2, 14.75, 4, 3, 3);
+
+-- =============================================================================
+-- MAINTENANCE_PART (6 part usage records)
+-- =============================================================================
+INSERT INTO Maintenance_Part (Quantity_Used, Maintenance_Log_ID, Part_ID) VALUES
+(1, 1, 1),   -- Tent Pole Replacement used in log 1
+(1, 2, 5),   -- Kayak Foot Peg Set used in log 2
+(1, 3, 2),   -- Sleeping Bag Zipper Kit used in log 3
+(1, 4, 3),   -- Backpack Hip Belt Pad ordered in log 4
+(1, 5, 3),   -- Backpack Hip Belt Pad installed in log 5
+(2, 5, 8);   -- Webbing Strap also used in log 5
