@@ -1,0 +1,262 @@
+-- =============================================================================
+-- Wilderness Exploration Society (WES) — Database Schema
+-- MIST 4610 | Group Project | Case #1
+-- University of Georgia — Terry College of Business | Spring 2026
+-- =============================================================================
+
+DROP DATABASE IF EXISTS WES;
+CREATE DATABASE WES;
+USE WES;
+
+-- =============================================================================
+-- TABLE: Customer
+-- =============================================================================
+CREATE TABLE Customer (
+    Customer_ID     INT             NOT NULL AUTO_INCREMENT,
+    Customer_F_Name VARCHAR(15)     NOT NULL,
+    Customer_L_Name VARCHAR(15)     NOT NULL,
+    Customer_Phone  VARCHAR(12),
+    Customer_DOB    DATE,
+    Customer_Type   VARCHAR(45)     NOT NULL,
+    CONSTRAINT pk_Customer PRIMARY KEY (Customer_ID)
+);
+
+-- =============================================================================
+-- TABLE: Member
+-- University members linked to a Customer record
+-- =============================================================================
+CREATE TABLE Member (
+    Member_ID       INT         NOT NULL AUTO_INCREMENT,
+    University_Role VARCHAR(90),
+    Customer_ID     INT         NOT NULL,
+    CONSTRAINT pk_Member PRIMARY KEY (Member_ID),
+    CONSTRAINT fk_Member_Customer FOREIGN KEY (Customer_ID)
+        REFERENCES Customer(Customer_ID)
+);
+
+-- =============================================================================
+-- TABLE: Guest
+-- Guests must be sponsored by a university member (Customer)
+-- =============================================================================
+CREATE TABLE Guest (
+    Guest_ID    INT     NOT NULL AUTO_INCREMENT,
+    Customer_ID INT     NOT NULL,
+    Sponsor_ID  INT     NOT NULL,
+    CONSTRAINT pk_Guest PRIMARY KEY (Guest_ID),
+    CONSTRAINT fk_Guest_Customer FOREIGN KEY (Customer_ID)
+        REFERENCES Customer(Customer_ID),
+    CONSTRAINT fk_Guest_Sponsor FOREIGN KEY (Sponsor_ID)
+        REFERENCES Customer(Customer_ID)
+);
+
+-- =============================================================================
+-- TABLE: Staff
+-- =============================================================================
+CREATE TABLE Staff (
+    Staff_ID        INT         NOT NULL AUTO_INCREMENT,
+    Staff_F_Name    VARCHAR(15) NOT NULL,
+    Staff_L_Name    VARCHAR(15) NOT NULL,
+    Staff_Phone     VARCHAR(12),
+    CONSTRAINT pk_Staff PRIMARY KEY (Staff_ID)
+);
+
+-- =============================================================================
+-- TABLE: Trip_Type
+-- =============================================================================
+CREATE TABLE Trip_Type (
+    Trip_Type_ID            INT             NOT NULL AUTO_INCREMENT,
+    Trip_Type_Name          VARCHAR(45)     NOT NULL,
+    Trip_Type_Diff_Lvl      VARCHAR(15)     NOT NULL,
+    Trip_Type_Fee           DECIMAL(5,2)    NOT NULL,
+    Trip_Type_Length_days   INT             NOT NULL,
+    CONSTRAINT pk_Trip_Type PRIMARY KEY (Trip_Type_ID)
+);
+
+-- =============================================================================
+-- TABLE: Trip_Prerequisite
+-- Self-referencing bridge table on Trip_Type
+-- =============================================================================
+CREATE TABLE Trip_Prerequisite (
+    Trip_Type_ID                INT     NOT NULL,
+    Prerequisite_Trip_Type_ID   INT     NOT NULL,
+    CONSTRAINT pk_Trip_Prerequisite PRIMARY KEY (Trip_Type_ID, Prerequisite_Trip_Type_ID),
+    CONSTRAINT fk_TripPrereq_Trip FOREIGN KEY (Trip_Type_ID)
+        REFERENCES Trip_Type(Trip_Type_ID),
+    CONSTRAINT fk_TripPrereq_Prereq FOREIGN KEY (Prerequisite_Trip_Type_ID)
+        REFERENCES Trip_Type(Trip_Type_ID)
+);
+
+-- =============================================================================
+-- TABLE: Scheduled_Trip
+-- =============================================================================
+CREATE TABLE Scheduled_Trip (
+    Scheduled_Trip_ID   INT     NOT NULL AUTO_INCREMENT,
+    Trip_Date           DATE    NOT NULL,
+    Lead_Staff_ID       INT     NOT NULL,
+    Assistant_Staff_ID  INT     NOT NULL,
+    Trip_Type_ID        INT     NOT NULL,
+    CONSTRAINT pk_Scheduled_Trip PRIMARY KEY (Scheduled_Trip_ID),
+    CONSTRAINT uq_Scheduled_Trip UNIQUE (Trip_Type_ID, Trip_Date),
+    CONSTRAINT fk_SchedTrip_Lead FOREIGN KEY (Lead_Staff_ID)
+        REFERENCES Staff(Staff_ID),
+    CONSTRAINT fk_SchedTrip_Assistant FOREIGN KEY (Assistant_Staff_ID)
+        REFERENCES Staff(Staff_ID),
+    CONSTRAINT fk_SchedTrip_TripType FOREIGN KEY (Trip_Type_ID)
+        REFERENCES Trip_Type(Trip_Type_ID)
+);
+
+-- =============================================================================
+-- TABLE: Registration
+-- =============================================================================
+CREATE TABLE Registration (
+    Registration_ID     INT         NOT NULL AUTO_INCREMENT,
+    Customer_ID         INT         NOT NULL,
+    Scheduled_Trip_ID   INT         NOT NULL,
+    Registration_Waiver TINYINT(1)  NOT NULL DEFAULT 0,
+    Registration_Status VARCHAR(10) NOT NULL,
+    CONSTRAINT pk_Registration PRIMARY KEY (Registration_ID),
+    CONSTRAINT uq_Registration UNIQUE (Customer_ID, Scheduled_Trip_ID),
+    CONSTRAINT fk_Reg_Customer FOREIGN KEY (Customer_ID)
+        REFERENCES Customer(Customer_ID),
+    CONSTRAINT fk_Reg_SchedTrip FOREIGN KEY (Scheduled_Trip_ID)
+        REFERENCES Scheduled_Trip(Scheduled_Trip_ID)
+);
+
+-- =============================================================================
+-- TABLE: Equipment_Type
+-- =============================================================================
+CREATE TABLE Equipment_Type (
+    Equipment_Type_ID   INT             NOT NULL AUTO_INCREMENT,
+    Equipment_Name      VARCHAR(45)     NOT NULL,
+    Student_Rate        DECIMAL(5,2)    NOT NULL,
+    Faculty_Alumni_Rate DECIMAL(5,2)    NOT NULL,
+    Guest_Rate          DECIMAL(5,2)    NOT NULL,
+    CONSTRAINT pk_Equipment_Type PRIMARY KEY (Equipment_Type_ID)
+);
+
+-- =============================================================================
+-- TABLE: Equipment_Item
+-- =============================================================================
+CREATE TABLE Equipment_Item (
+    Item_ID                         INT         NOT NULL AUTO_INCREMENT,
+    Condition_Rating                VARCHAR(4)  NOT NULL,
+    Equipment_Type_Equipment_Type_ID INT        NOT NULL,
+    CONSTRAINT pk_Equipment_Item PRIMARY KEY (Item_ID),
+    CONSTRAINT fk_EqItem_EqType FOREIGN KEY (Equipment_Type_Equipment_Type_ID)
+        REFERENCES Equipment_Type(Equipment_Type_ID)
+);
+
+-- =============================================================================
+-- TABLE: Rental_Agreement
+-- =============================================================================
+CREATE TABLE Rental_Agreement (
+    Agreement_ID    INT     NOT NULL AUTO_INCREMENT,
+    Rental_Date     DATE    NOT NULL,
+    Customer_ID     INT     NOT NULL,
+    Staff_ID        INT     NOT NULL,
+    CONSTRAINT pk_Rental_Agreement PRIMARY KEY (Agreement_ID),
+    CONSTRAINT fk_RentAgr_Customer FOREIGN KEY (Customer_ID)
+        REFERENCES Customer(Customer_ID),
+    CONSTRAINT fk_RentAgr_Staff FOREIGN KEY (Staff_ID)
+        REFERENCES Staff(Staff_ID)
+);
+
+-- =============================================================================
+-- TABLE: Rental_Agreement_has_Equipment_Item
+-- Bridge table linking rental agreements to individual equipment items
+-- =============================================================================
+CREATE TABLE Rental_Agreement_has_Equipment_Item (
+    Rental_Agreement_Agreement_ID   INT         NOT NULL,
+    Equipment_Item_Item_ID          INT         NOT NULL,
+    Expected_return_date            VARCHAR(45),
+    Actual_return_date              VARCHAR(45),
+    CONSTRAINT pk_RentAgrEqItem PRIMARY KEY (Rental_Agreement_Agreement_ID, Equipment_Item_Item_ID),
+    CONSTRAINT fk_RentAgrEq_Agreement FOREIGN KEY (Rental_Agreement_Agreement_ID)
+        REFERENCES Rental_Agreement(Agreement_ID),
+    CONSTRAINT fk_RentAgrEq_Item FOREIGN KEY (Equipment_Item_Item_ID)
+        REFERENCES Equipment_Item(Item_ID)
+);
+
+-- =============================================================================
+-- TABLE: Supplier
+-- =============================================================================
+CREATE TABLE Supplier (
+    Supplier_ID             INT         NOT NULL AUTO_INCREMENT,
+    Supplier_Name           VARCHAR(50) NOT NULL,
+    Supplier_Contact_F_name VARCHAR(45),
+    Supplier_Contact_L_name VARCHAR(45),
+    Supplier_Phone          VARCHAR(45),
+    Supplier_Email          VARCHAR(30),
+    Supplier_Address        VARCHAR(45),
+    CONSTRAINT pk_Supplier PRIMARY KEY (Supplier_ID)
+);
+
+-- =============================================================================
+-- TABLE: Part
+-- =============================================================================
+CREATE TABLE Part (
+    Part_ID             INT             NOT NULL AUTO_INCREMENT,
+    Part_Name           VARCHAR(45)     NOT NULL,
+    Part_Unit_Cost      DECIMAL(5,2)    NOT NULL,
+    Part_Stock_Quantity INT             NOT NULL,
+    Supplier_ID         INT             NOT NULL,
+    CONSTRAINT pk_Part PRIMARY KEY (Part_ID),
+    CONSTRAINT fk_Part_Supplier FOREIGN KEY (Supplier_ID)
+        REFERENCES Supplier(Supplier_ID)
+);
+
+-- =============================================================================
+-- TABLE: Maintenance_Request
+-- =============================================================================
+CREATE TABLE Maintenance_Request (
+    Request_ID          INT         NOT NULL AUTO_INCREMENT,
+    Request_Date        DATE        NOT NULL,
+    Issue_Description   VARCHAR(90),
+    Priority            VARCHAR(15),
+    Status              VARCHAR(20),
+    Item_ID             INT         NOT NULL,
+    Staff_ID            INT         NOT NULL,
+    CONSTRAINT pk_Maintenance_Request PRIMARY KEY (Request_ID),
+    CONSTRAINT fk_MaintReq_Item FOREIGN KEY (Item_ID)
+        REFERENCES Equipment_Item(Item_ID),
+    CONSTRAINT fk_MaintReq_Staff FOREIGN KEY (Staff_ID)
+        REFERENCES Staff(Staff_ID)
+);
+
+-- =============================================================================
+-- TABLE: Maintenance_Log
+-- =============================================================================
+CREATE TABLE Maintenance_Log (
+    Log_ID                      INT             NOT NULL AUTO_INCREMENT,
+    Maintenance_Date            DATE            NOT NULL,
+    Work_Done_Desc              VARCHAR(90),
+    Outcome                     VARCHAR(15),
+    Maintenance_Count           INT,
+    Cost_of_Maintenance         DECIMAL(5,2),
+    Maintenance_Request_ID      INT             NOT NULL,
+    Performed_by_Staff_ID       INT             NOT NULL,
+    Item_ID                     INT             NOT NULL,
+    CONSTRAINT pk_Maintenance_Log PRIMARY KEY (Log_ID),
+    CONSTRAINT fk_MaintLog_Request FOREIGN KEY (Maintenance_Request_ID)
+        REFERENCES Maintenance_Request(Request_ID),
+    CONSTRAINT fk_MaintLog_Staff FOREIGN KEY (Performed_by_Staff_ID)
+        REFERENCES Staff(Staff_ID),
+    CONSTRAINT fk_MaintLog_Item FOREIGN KEY (Item_ID)
+        REFERENCES Equipment_Item(Item_ID)
+);
+
+-- =============================================================================
+-- TABLE: Maintenance_Part
+-- Bridge table: parts used in a maintenance log entry
+-- =============================================================================
+CREATE TABLE Maintenance_Part (
+    Maintenance_Part_ID INT     NOT NULL AUTO_INCREMENT,
+    Quantity_Used       INT     NOT NULL,
+    Maintenance_Log_ID  INT     NOT NULL,
+    Part_ID             INT     NOT NULL,
+    CONSTRAINT pk_Maintenance_Part PRIMARY KEY (Maintenance_Part_ID),
+    CONSTRAINT fk_MaintPart_Log FOREIGN KEY (Maintenance_Log_ID)
+        REFERENCES Maintenance_Log(Log_ID),
+    CONSTRAINT fk_MaintPart_Part FOREIGN KEY (Part_ID)
+        REFERENCES Part(Part_ID)
+);
