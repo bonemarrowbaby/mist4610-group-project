@@ -41,10 +41,13 @@ The Wilderness Exploration Society (WES) at Peachtree State University is an out
 | [Alden Majors]
 | [Darryl McNeil]
 
+---
+
 ## Data Model 
 
 ![WES ER Diagram](er_diagram.png)
 
+---
 
 ## Data Model Description
 
@@ -69,6 +72,7 @@ Equipment issues are filed as `Maintenance_Request` records linked to a specific
 ### Suppliers & Parts
 `Supplier` stores vendor contact information. `Part` tracks individual parts with unit cost, stock quantity, and a link to the supplying vendor.
 
+---
 
 ## Data Dictionary
 
@@ -93,6 +97,7 @@ Equipment issues are filed as `Maintenance_Request` records linked to a specific
 | `University_Role` | VARCHAR(90) | | Role at the university (e.g., Professor, Graduate Student) |
 | `Customer_ID` | INT | FK → Customer(Customer_ID) | Links this member to a customer |
 
+---
 
 ### Table: `Guest`
 
