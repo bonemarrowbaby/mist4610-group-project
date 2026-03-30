@@ -41,7 +41,7 @@ The Wilderness Exploration Society (WES) at Peachtree State University is an out
 | [Alden Majors]
 | [Darryl McNeil]
 
-Data Model 
+## Data Model 
 
 ![WES ER Diagram](er_diagram.png)
 
