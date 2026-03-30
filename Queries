@@ -1,0 +1,220 @@
+-- =============================================================================
+-- Wilderness Exploration Society (WES) — Sample Queries
+-- MIST 4610 | Group Project | Case #1
+-- University of Georgia — Terry College of Business | Spring 2026
+-- =============================================================================
+
+USE WES;
+
+-- =============================================================================
+-- Query 1: List all upcoming confirmed registrations with customer and trip details
+-- Purpose: Generates trip rosters for upcoming scheduled trips so staff can prepare.
+-- =============================================================================
+SELECT
+    c.Customer_F_Name,
+    c.Customer_L_Name,
+    c.Customer_Type,
+    tt.Trip_Type_Name,
+    st.Trip_Date,
+    r.Registration_Status,
+    r.Registration_Waiver
+FROM Registration r
+JOIN Customer c
+    ON r.Customer_ID = c.Customer_ID
+JOIN Scheduled_Trip st
+    ON r.Scheduled_Trip_ID = st.Scheduled_Trip_ID
+JOIN Trip_Type tt
+    ON st.Trip_Type_ID = tt.Trip_Type_ID
+WHERE st.Trip_Date >= CURDATE()
+  AND r.Registration_Status = 'Confirmed'
+ORDER BY st.Trip_Date, tt.Trip_Type_Name;
+
+
+-- =============================================================================
+-- Query 2: Find all guests and their sponsors
+-- Purpose: Verifies every guest on file has a valid sponsoring university member.
+-- =============================================================================
+SELECT
+    CONCAT(gc.Customer_F_Name, ' ', gc.Customer_L_Name) AS GuestName,
+    gc.Customer_Phone                                    AS GuestPhone,
+    CONCAT(sc.Customer_F_Name, ' ', sc.Customer_L_Name) AS SponsorName,
+    sc.Customer_Type                                     AS SponsorType
+FROM Guest g
+JOIN Customer gc ON g.Customer_ID = gc.Customer_ID
+JOIN Customer sc ON g.Sponsor_ID  = sc.Customer_ID
+ORDER BY SponsorName, GuestName;
+
+
+-- =============================================================================
+-- Query 3: Count registrations per scheduled trip broken down by status
+-- Purpose: Gives management a snapshot of enrollment health across all trips.
+-- =============================================================================
+SELECT
+    tt.Trip_Type_Name,
+    st.Trip_Date,
+    SUM(CASE WHEN r.Registration_Status = 'Confirmed'  THEN 1 ELSE 0 END) AS Confirmed,
+    SUM(CASE WHEN r.Registration_Status = 'Waitlisted' THEN 1 ELSE 0 END) AS Waitlisted,
+    SUM(CASE WHEN r.Registration_Status = 'Cancelled'  THEN 1 ELSE 0 END) AS Cancelled,
+    COUNT(*) AS Total
+FROM Scheduled_Trip st
+JOIN Trip_Type tt
+    ON st.Trip_Type_ID = tt.Trip_Type_ID
+LEFT JOIN Registration r
+    ON st.Scheduled_Trip_ID = r.Scheduled_Trip_ID
+GROUP BY st.Scheduled_Trip_ID, tt.Trip_Type_Name, st.Trip_Date
+ORDER BY st.Trip_Date;
+
+
+-- =============================================================================
+-- Query 4: List equipment items currently checked out (not yet returned)
+-- Purpose: Tracks all gear in the field and highlights overdue items.
+-- =============================================================================
+SELECT
+    ei.Item_ID,
+    et.Equipment_Name,
+    ei.Condition_Rating,
+    ra.Rental_Date,
+    raei.Expected_return_date,
+    CONCAT(c.Customer_F_Name, ' ', c.Customer_L_Name) AS RentedBy
+FROM Rental_Agreement_has_Equipment_Item raei
+JOIN Equipment_Item ei
+    ON raei.Equipment_Item_Item_ID = ei.Item_ID
+JOIN Equipment_Type et
+    ON ei.Equipment_Type_Equipment_Type_ID = et.Equipment_Type_ID
+JOIN Rental_Agreement ra
+    ON raei.Rental_Agreement_Agreement_ID = ra.Agreement_ID
+JOIN Customer c
+    ON ra.Customer_ID = c.Customer_ID
+WHERE raei.Actual_return_date IS NULL
+ORDER BY raei.Expected_return_date;
+
+
+-- =============================================================================
+-- Query 5: Calculate estimated rental revenue by equipment type and customer category
+-- Purpose: Identifies highest-revenue gear and most profitable customer segments.
+-- =============================================================================
+SELECT
+    et.Equipment_Name,
+    c.Customer_Type,
+    COUNT(*) AS TimesRented,
+    SUM(
+        DATEDIFF(raei.Expected_return_date, ra.Rental_Date) *
+        CASE c.Customer_Type
+            WHEN 'Student' THEN et.Student_Rate
+            WHEN 'Guest'   THEN et.Guest_Rate
+            ELSE                et.Faculty_Alumni_Rate
+        END
+    ) AS EstimatedRevenue
+FROM Rental_Agreement_has_Equipment_Item raei
+JOIN Rental_Agreement ra
+    ON raei.Rental_Agreement_Agreement_ID = ra.Agreement_ID
+JOIN Customer c
+    ON ra.Customer_ID = c.Customer_ID
+JOIN Equipment_Item ei
+    ON raei.Equipment_Item_Item_ID = ei.Item_ID
+JOIN Equipment_Type et
+    ON ei.Equipment_Type_Equipment_Type_ID = et.Equipment_Type_ID
+GROUP BY et.Equipment_Name, c.Customer_Type
+ORDER BY EstimatedRevenue DESC;
+
+
+-- =============================================================================
+-- Query 6: Show all trip prerequisite chains
+-- Purpose: Lets staff communicate prerequisite requirements to participants.
+-- =============================================================================
+SELECT
+    tt.Trip_Type_Name       AS TripType,
+    tt.Trip_Type_Diff_Lvl   AS Difficulty,
+    pre.Trip_Type_Name      AS PrerequisiteName,
+    pre.Trip_Type_Diff_Lvl  AS PrerequisiteDifficulty
+FROM Trip_Prerequisite tp
+JOIN Trip_Type tt  ON tp.Trip_Type_ID              = tt.Trip_Type_ID
+JOIN Trip_Type pre ON tp.Prerequisite_Trip_Type_ID = pre.Trip_Type_ID
+ORDER BY tt.Trip_Type_Name;
+
+
+-- =============================================================================
+-- Query 7: Find confirmed participants who have not signed their waiver
+-- Purpose: Produces a contact list of confirmed participants still needing waivers.
+-- =============================================================================
+SELECT
+    CONCAT(c.Customer_F_Name, ' ', c.Customer_L_Name) AS CustomerName,
+    c.Customer_Phone,
+    tt.Trip_Type_Name,
+    st.Trip_Date,
+    r.Registration_Status
+FROM Registration r
+JOIN Customer c
+    ON r.Customer_ID = c.Customer_ID
+JOIN Scheduled_Trip st
+    ON r.Scheduled_Trip_ID = st.Scheduled_Trip_ID
+JOIN Trip_Type tt
+    ON st.Trip_Type_ID = tt.Trip_Type_ID
+WHERE r.Registration_Waiver = 0
+  AND r.Registration_Status = 'Confirmed'
+  AND st.Trip_Date >= CURDATE()
+ORDER BY st.Trip_Date, c.Customer_L_Name;
+
+
+-- =============================================================================
+-- Query 8: Show each staff member's trip leadership activity
+-- Purpose: Helps management evaluate staff workload and experience distribution.
+-- =============================================================================
+SELECT
+    CONCAT(s.Staff_F_Name, ' ', s.Staff_L_Name)                           AS StaffName,
+    SUM(CASE WHEN st.Lead_Staff_ID      = s.Staff_ID THEN 1 ELSE 0 END)   AS TripsLed,
+    SUM(CASE WHEN st.Assistant_Staff_ID = s.Staff_ID THEN 1 ELSE 0 END)   AS TripsAssisted
+FROM Staff s
+JOIN Scheduled_Trip st
+    ON s.Staff_ID = st.Lead_Staff_ID OR s.Staff_ID = st.Assistant_Staff_ID
+GROUP BY s.Staff_ID, StaffName
+ORDER BY TripsLed DESC;
+
+
+-- =============================================================================
+-- Query 9: List open maintenance requests prioritized by urgency
+-- Purpose: Gives the maintenance team a prioritized work queue.
+-- =============================================================================
+SELECT
+    mr.Request_ID,
+    mr.Request_Date,
+    mr.Priority,
+    mr.Status,
+    et.Equipment_Name,
+    ei.Condition_Rating,
+    mr.Issue_Description,
+    CONCAT(s.Staff_F_Name, ' ', s.Staff_L_Name) AS AssignedStaff
+FROM Maintenance_Request mr
+JOIN Equipment_Item ei
+    ON mr.Item_ID = ei.Item_ID
+JOIN Equipment_Type et
+    ON ei.Equipment_Type_Equipment_Type_ID = et.Equipment_Type_ID
+JOIN Staff s
+    ON mr.Staff_ID = s.Staff_ID
+WHERE mr.Status != 'Closed'
+ORDER BY
+    CASE mr.Priority
+        WHEN 'High'   THEN 1
+        WHEN 'Medium' THEN 2
+        ELSE               3
+    END,
+    mr.Request_Date;
+
+
+-- =============================================================================
+-- Query 10: Find parts running low in stock with supplier contact details
+-- Purpose: Flags low-stock parts so staff can reorder before running out.
+-- =============================================================================
+SELECT
+    p.Part_Name,
+    p.Part_Stock_Quantity,
+    p.Part_Unit_Cost,
+    sup.Supplier_Name,
+    CONCAT(sup.Supplier_Contact_F_name, ' ', sup.Supplier_Contact_L_name) AS SupplierContact,
+    sup.Supplier_Phone,
+    sup.Supplier_Email
+FROM Part p
+JOIN Supplier sup
+    ON p.Supplier_ID = sup.Supplier_ID
+WHERE p.Part_Stock_Quantity < 10
+ORDER BY p.Part_Stock_Quantity ASC;
