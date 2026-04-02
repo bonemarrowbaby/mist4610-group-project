@@ -1,229 +1,595 @@
 -- =============================================================================
--- Wilderness Exploration Society (WES) — Sample Data
+-- Wilderness Exploration Society (WES) — Sample Data (Expanded)
 -- MIST 4610 | Group Project | Case #1
 -- University of Georgia — Terry College of Business | Spring 2026
+-- All ID values are randomized 4-5 digit numbers
 -- =============================================================================
 
 USE WES;
 
 -- =============================================================================
--- CUSTOMER (10 rows)
+-- CUSTOMER (50 rows)
 -- =============================================================================
-INSERT INTO Customer (Customer_F_Name, Customer_L_Name, Customer_Phone, Customer_DOB, Customer_Type) VALUES
-('James',   'Carter',   '706-555-0101', '2001-03-15', 'Student'),
-('Maria',   'Lopez',    '706-555-0102', '1998-07-22', 'Student'),
-('David',   'Nguyen',   '706-555-0103', '1975-11-08', 'Faculty/Staff'),
-('Sarah',   'Kim',      '706-555-0104', '1980-04-30', 'Faculty/Staff'),
-('Robert',  'Thompson', '706-555-0105', '1990-09-12', 'Alumni'),
-('Emily',   'Davis',    '706-555-0106', '1992-01-25', 'Alumni'),
-('Marcus',  'Hall',     '706-555-0107', '2002-06-17', 'Student'),
-('Priya',   'Patel',    '706-555-0108', '1999-12-03', 'Student'),
-('Chris',   'Bennett',  '706-555-0109', '1985-08-19', 'Guest'),
-('Laura',   'Simmons',  '706-555-0110', '1997-02-14', 'Guest');
+INSERT INTO Customer (Customer_ID, Customer_F_Name, Customer_L_Name, Customer_Phone, Customer_DOB, Customer_Type) VALUES
+(84810, 'James',    'Carter',    '706-555-0101', '2001-03-15', 'Student'),
+(15592, 'Maria',    'Lopez',     '706-555-0102', '1998-07-22', 'Student'),
+(4278,  'David',    'Nguyen',    '706-555-0103', '1975-11-08', 'Faculty/Staff'),
+(98196, 'Sarah',    'Kim',       '706-555-0104', '1980-04-30', 'Faculty/Staff'),
+(37048, 'Robert',   'Thompson',  '706-555-0105', '1990-09-12', 'Alumni'),
+(33098, 'Emily',    'Davis',     '706-555-0106', '1992-01-25', 'Alumni'),
+(30256, 'Marcus',   'Hall',      '706-555-0107', '2002-06-17', 'Student'),
+(19289, 'Priya',    'Patel',     '706-555-0108', '1999-12-03', 'Student'),
+(97530, 'Chris',    'Bennett',   '706-555-0109', '1985-08-19', 'Guest'),
+(14434, 'Laura',    'Simmons',   '706-555-0110', '1997-02-14', 'Guest'),
+(89696, 'Tyler',    'Morris',    '706-555-0111', '2000-05-21', 'Student'),
+(98080, 'Aisha',    'Robinson',  '706-555-0112', '1999-09-14', 'Student'),
+(72482, 'Nathan',   'Hughes',    '706-555-0113', '1978-03-07', 'Faculty/Staff'),
+(12395, 'Karen',    'Price',     '706-555-0114', '1983-11-19', 'Faculty/Staff'),
+(78397, 'George',   'Murphy',    '706-555-0115', '1988-06-25', 'Alumni'),
+(56302, 'Diana',    'Rivera',    '706-555-0116', '1993-08-10', 'Alumni'),
+(5165,  'Kevin',    'Scott',     '706-555-0117', '2003-01-30', 'Student'),
+(4905,  'Fatima',   'Hassan',    '706-555-0118', '2001-07-16', 'Student'),
+(13280, 'Michael',  'Reed',      '706-555-0119', '1982-12-04', 'Guest'),
+(29657, 'Jessica',  'Barnes',    '706-555-0120', '1995-04-22', 'Guest'),
+(31495, 'Daniel',   'Cooper',    '706-555-0121', '2000-10-11', 'Student'),
+(67237, 'Olivia',   'Turner',    '706-555-0122', '1998-02-28', 'Student'),
+(79907, 'Patrick',  'Jenkins',   '706-555-0123', '1971-07-03', 'Faculty/Staff'),
+(4478,  'Angela',   'Powell',    '706-555-0124', '1979-09-15', 'Faculty/Staff'),
+(74563, 'Steven',   'Long',      '706-555-0125', '1987-05-18', 'Alumni'),
+(27062, 'Michelle', 'Patterson', '706-555-0126', '1991-11-27', 'Alumni'),
+(94850, 'Brandon',  'Gray',      '706-555-0127', '2002-03-09', 'Student'),
+(86181, 'Jasmine',  'Ramirez',   '706-555-0128', '2001-08-24', 'Student'),
+(92924, 'Paul',     'Nelson',    '706-555-0129', '1984-06-12', 'Guest'),
+(72426, 'Tiffany',  'Carter',    '706-555-0130', '1996-01-07', 'Guest'),
+(55987, 'Anthony',  'Mitchell',  '706-555-0131', '2003-09-20', 'Student'),
+(29893, 'Samantha', 'Perez',     '706-555-0132', '1999-04-05', 'Student'),
+(59878, 'Gregory',  'Roberts',   '706-555-0133', '1976-12-31', 'Faculty/Staff'),
+(78236, 'Vanessa',  'Phillips',  '706-555-0134', '1981-08-08', 'Faculty/Staff'),
+(37463, 'Raymond',  'Evans',     '706-555-0135', '1989-03-14', 'Alumni'),
+(1851,  'Nicole',   'Edwards',   '706-555-0136', '1994-07-29', 'Alumni'),
+(21926, 'Justin',   'Collins',   '706-555-0137', '2001-11-16', 'Student'),
+(92506, 'Amber',    'Stewart',   '706-555-0138', '2000-06-03', 'Student'),
+(56392, 'Dennis',   'Sanchez',   '706-555-0139', '1986-02-22', 'Guest'),
+(45597, 'Crystal',  'Morris',    '706-555-0140', '1997-10-18', 'Guest'),
+(37421, 'Eric',     'Rogers',    '706-555-0141', '2002-07-07', 'Student'),
+(21379, 'Monique',  'Reed',      '706-555-0142', '1998-12-25', 'Student'),
+(29221, 'Harold',   'Cook',      '706-555-0143', '1973-04-16', 'Faculty/Staff'),
+(45118, 'Brenda',   'Morgan',    '706-555-0144', '1977-09-01', 'Faculty/Staff'),
+(14396, 'Frank',    'Bell',      '706-555-0145', '1991-05-30', 'Alumni'),
+(13156, 'Teresa',   'Murphy',    '706-555-0146', '1993-03-11', 'Alumni'),
+(50797, 'Joshua',   'Bailey',    '706-555-0147', '2003-08-14', 'Student'),
+(13676, 'Destiny',  'Rivera',    '706-555-0148', '2000-01-19', 'Student'),
+(48052, 'Walter',   'Cox',       '706-555-0149', '1983-11-06', 'Guest'),
+(46082, 'Natalie',  'Howard',    '706-555-0150', '1996-06-28', 'Guest');
 
 -- =============================================================================
--- MEMBER (links university customers to Member table)
+-- MEMBER (35 rows)
 -- =============================================================================
-INSERT INTO Member (University_Role, Customer_ID) VALUES
-('Undergraduate Student',   1),
-('Undergraduate Student',   2),
-('Professor',               3),
-('Administrative Staff',    4),
-('Alumni',                  5),
-('Alumni',                  6),
-('Graduate Student',        7),
-('Undergraduate Student',   8);
+INSERT INTO Member (Member_ID, University_Role, Customer_ID) VALUES
+(80131, 'Undergraduate Student',  84810),
+(35671, 'Undergraduate Student',  15592),
+(6695,  'Professor',              4278),
+(96647, 'Administrative Staff',   98196),
+(61217, 'Alumni',                 37048),
+(71284, 'Alumni',                 33098),
+(17361, 'Graduate Student',       30256),
+(50615, 'Undergraduate Student',  19289),
+(11328, 'Undergraduate Student',  89696),
+(73357, 'Graduate Student',       98080),
+(39427, 'Associate Professor',    72482),
+(83397, 'Research Staff',         12395),
+(82070, 'Alumni',                 78397),
+(48400, 'Alumni',                 56302),
+(76674, 'Undergraduate Student',  5165),
+(26203, 'Undergraduate Student',  4905),
+(93349, 'Undergraduate Student',  31495),
+(10116, 'Graduate Student',       67237),
+(7006,  'Professor',              79907),
+(87673, 'Administrative Staff',   4478),
+(30871, 'Alumni',                 74563),
+(38930, 'Alumni',                 27062),
+(11458, 'Undergraduate Student',  94850),
+(31512, 'Graduate Student',       86181),
+(14238, 'Undergraduate Student',  55987),
+(50823, 'Undergraduate Student',  29893),
+(37434, 'Lecturer',               59878),
+(60429, 'Administrative Staff',   78236),
+(84320, 'Alumni',                 37463),
+(48819, 'Alumni',                 1851),
+(22319, 'Graduate Student',       21926),
+(49520, 'Undergraduate Student',  92506),
+(47566, 'Undergraduate Student',  37421),
+(28460, 'Graduate Student',       21379),
+(88841, 'Professor',              29221);
 
 -- =============================================================================
--- GUEST (guests sponsored by university members)
+-- GUEST (15 rows)
 -- =============================================================================
-INSERT INTO Guest (Customer_ID, Sponsor_ID) VALUES
-(9,  1),   -- Chris Bennett sponsored by James Carter
-(10, 5);   -- Laura Simmons sponsored by Robert Thompson
+INSERT INTO Guest (Guest_ID, Customer_ID, Sponsor_ID) VALUES
+(35993, 97530, 84810),
+(92988, 14434, 37048),
+(90593, 13280, 15592),
+(85939, 29657, 33098),
+(10358, 92924, 30256),
+(80840, 72426, 89696),
+(84227, 56392, 78397),
+(23431, 45597, 56302),
+(71010, 48052, 4278),
+(96568, 46082, 98196),
+(33087, 13280, 72482),
+(22417, 29657, 12395),
+(61589, 92924, 74563),
+(50735, 72426, 27062),
+(36382, 48052, 21379);
 
 -- =============================================================================
--- STAFF (8 staff members)
+-- STAFF (20 rows)
 -- =============================================================================
-INSERT INTO Staff (Staff_F_Name, Staff_L_Name, Staff_Phone) VALUES
-('Tyler',   'Brooks',   '706-555-0201'),
-('Angela',  'Foster',   '706-555-0202'),
-('Kevin',   'Marsh',    '706-555-0203'),
-('Diana',   'Chen',     '706-555-0204'),
-('Brian',   'Walsh',    '706-555-0205'),
-('Nina',    'Ortega',   '706-555-0206'),
-('Samuel',  'Grant',    '706-555-0207'),
-('Chloe',   'Warren',   '706-555-0208');
+INSERT INTO Staff (Staff_ID, Staff_F_Name, Staff_L_Name, Staff_Phone) VALUES
+(84886, 'Tyler',   'Brooks',   '706-555-0201'),
+(91198, 'Angela',  'Foster',   '706-555-0202'),
+(74000, 'Kevin',   'Marsh',    '706-555-0203'),
+(29785, 'Diana',   'Chen',     '706-555-0204'),
+(90733, 'Brian',   'Walsh',    '706-555-0205'),
+(43504, 'Nina',    'Ortega',   '706-555-0206'),
+(8331,  'Samuel',  'Grant',    '706-555-0207'),
+(31021, 'Chloe',   'Warren',   '706-555-0208'),
+(5207,  'Derek',   'Manning',  '706-555-0209'),
+(42347, 'Leah',    'Simmons',  '706-555-0210'),
+(53581, 'Carlos',  'Vega',     '706-555-0211'),
+(36093, 'Hannah',  'Bishop',   '706-555-0212'),
+(9675,  'Aaron',   'Fleming',  '706-555-0213'),
+(28653, 'Tara',    'Goodwin',  '706-555-0214'),
+(75341, 'Marcus',  'Stone',    '706-555-0215'),
+(95098, 'Elise',   'Hunt',     '706-555-0216'),
+(42245, 'Owen',    'Drake',    '706-555-0217'),
+(28869, 'Jada',    'Thornton', '706-555-0218'),
+(86909, 'Cole',    'Barker',   '706-555-0219'),
+(66435, 'Maya',    'Cross',    '706-555-0220');
 
 -- =============================================================================
--- TRIP_TYPE (8 trip types)
+-- TRIP_TYPE (20 rows)
 -- =============================================================================
-INSERT INTO Trip_Type (Trip_Type_Name, Trip_Type_Diff_Lvl, Trip_Type_Fee, Trip_Type_Length_days) VALUES
-('Beginner Kayaking',           'Beginner',     45.00, 1),
-('Intermediate Kayaking',       'Intermediate', 75.00, 2),
-('Advanced Kayaking',           'Advanced',     110.00, 3),
-('Beginner Backpacking',        'Beginner',     50.00, 2),
-('Intermediate Backpacking',    'Intermediate', 85.00, 3),
-('Beginner Rock Climbing',      'Beginner',     60.00, 1),
-('Advanced Rock Climbing',      'Advanced',     120.00, 2),
-('Family Camping',              'Beginner',     35.00, 2);
+INSERT INTO Trip_Type (Trip_Type_ID, Trip_Type_Name, Trip_Type_Diff_Lvl, Trip_Type_Fee, Trip_Type_Length_days) VALUES
+(52856, 'Beginner Kayaking',            'Beginner',      45.00,  1),
+(85259, 'Intermediate Kayaking',        'Intermediate',  75.00,  2),
+(61142, 'Advanced Kayaking',            'Advanced',     110.00,  3),
+(19726, 'Beginner Backpacking',         'Beginner',      50.00,  2),
+(35718, 'Intermediate Backpacking',     'Intermediate',  85.00,  3),
+(19301, 'Advanced Backpacking',         'Advanced',     130.00,  5),
+(33325, 'Beginner Rock Climbing',       'Beginner',      60.00,  1),
+(98647, 'Intermediate Rock Climbing',   'Intermediate',  95.00,  2),
+(74579, 'Advanced Rock Climbing',       'Advanced',     120.00,  2),
+(71644, 'Family Camping',               'Beginner',      35.00,  2),
+(35438, 'Beginner Mountain Biking',     'Beginner',      55.00,  1),
+(98912, 'Intermediate Mountain Biking', 'Intermediate',  80.00,  2),
+(77622, 'Advanced Mountain Biking',     'Advanced',     115.00,  3),
+(57155, 'Canoe Day Trip',               'Beginner',      40.00,  1),
+(77484, 'Overnight Canoe Trip',         'Intermediate',  70.00,  2),
+(53350, 'Nature Photography Hike',      'Beginner',      30.00,  1),
+(48447, 'Wilderness Survival Course',   'Advanced',     150.00,  3),
+(29746, 'Winter Snowshoeing',           'Beginner',      45.00,  1),
+(19131, 'Beginner Whitewater Rafting',  'Beginner',      65.00,  1),
+(67784, 'Advanced Whitewater Rafting',  'Advanced',     125.00,  2);
 
 -- =============================================================================
--- TRIP_PREREQUISITE
+-- TRIP_PREREQUISITE (20 rows)
 -- =============================================================================
 INSERT INTO Trip_Prerequisite (Trip_Type_ID, Prerequisite_Trip_Type_ID) VALUES
-(2, 1),   -- Intermediate Kayaking requires Beginner Kayaking
-(3, 2),   -- Advanced Kayaking requires Intermediate Kayaking
-(5, 4),   -- Intermediate Backpacking requires Beginner Backpacking
-(7, 6);   -- Advanced Rock Climbing requires Beginner Rock Climbing
+(85259, 52856),  -- Intermediate Kayaking requires Beginner Kayaking
+(61142, 85259),  -- Advanced Kayaking requires Intermediate Kayaking
+(35718, 19726),  -- Intermediate Backpacking requires Beginner Backpacking
+(19301, 35718),  -- Advanced Backpacking requires Intermediate Backpacking
+(98647, 33325),  -- Intermediate Rock Climbing requires Beginner Rock Climbing
+(74579, 98647),  -- Advanced Rock Climbing requires Intermediate Rock Climbing
+(98912, 35438),  -- Intermediate Mountain Biking requires Beginner Mountain Biking
+(77622, 98912),  -- Advanced Mountain Biking requires Intermediate Mountain Biking
+(77484, 57155),  -- Overnight Canoe Trip requires Canoe Day Trip
+(67784, 19131),  -- Advanced Whitewater Rafting requires Beginner Whitewater Rafting
+(48447, 35718),  -- Wilderness Survival Course requires Intermediate Backpacking
+(48447, 61142),  -- Wilderness Survival Course requires Advanced Kayaking
+(19301, 33325),  -- Advanced Backpacking requires Beginner Rock Climbing
+(74579, 61142),  -- Advanced Rock Climbing requires Advanced Kayaking
+(77622, 61142),  -- Advanced Mountain Biking requires Advanced Kayaking
+(67784, 85259),  -- Advanced Whitewater Rafting requires Intermediate Kayaking
+(77484, 52856),  -- Overnight Canoe requires Beginner Kayaking
+(98647, 19726),  -- Intermediate Rock Climbing requires Beginner Backpacking
+(61142, 52856),  -- Advanced Kayaking requires Beginner Kayaking
+(19131, 52856);  -- Beginner Whitewater Rafting requires Beginner Kayaking
 
 -- =============================================================================
--- SCHEDULED_TRIP (12 occurrences)
+-- SCHEDULED_TRIP (50 rows)
 -- =============================================================================
-INSERT INTO Scheduled_Trip (Trip_Date, Lead_Staff_ID, Assistant_Staff_ID, Trip_Type_ID) VALUES
-('2026-04-05', 1, 2, 1),
-('2026-04-12', 3, 4, 4),
-('2026-04-20', 2, 5, 6),
-('2026-05-03', 1, 3, 2),
-('2026-05-10', 4, 6, 5),
-('2026-05-17', 5, 7, 8),
-('2026-06-01', 6, 8, 3),
-('2026-06-14', 7, 1, 7),
-('2026-06-21', 2, 4, 1),
-('2026-07-04', 3, 5, 4),
-('2025-10-11', 1, 2, 1),
-('2025-11-08', 4, 3, 8);
+INSERT INTO Scheduled_Trip (Scheduled_Trip_ID, Trip_Date, Lead_Staff_ID, Assistant_Staff_ID, Trip_Type_ID) VALUES
+(65686, '2026-04-05', 84886, 91198, 52856),
+(12915, '2026-04-12', 74000, 29785, 19726),
+(7175,  '2026-04-20', 91198, 90733, 33325),
+(15371, '2026-05-03', 84886, 74000, 85259),
+(21033, '2026-05-10', 29785, 43504, 35718),
+(83240, '2026-05-17', 90733, 8331,  71644),
+(21969, '2026-06-01', 43504, 31021, 61142),
+(90192, '2026-06-14', 8331,  84886, 74579),
+(56333, '2026-06-21', 91198, 29785, 52856),
+(79172, '2026-07-04', 74000, 90733, 19726),
+(9326,  '2026-07-11', 31021, 5207,  35438),
+(51432, '2026-07-18', 5207,  42347, 57155),
+(51019, '2026-07-25', 42347, 53581, 53350),
+(79104, '2026-08-01', 53581, 36093, 29746),
+(62348, '2026-08-08', 36093, 9675,  19131),
+(70352, '2026-08-15', 9675,  28653, 19301),
+(33953, '2026-08-22', 28653, 75341, 98647),
+(73512, '2026-08-29', 75341, 95098, 98912),
+(2504,  '2026-09-05', 95098, 42245, 77622),
+(90166, '2026-09-12', 42245, 28869, 77484),
+(95466, '2026-09-19', 28869, 86909, 48447),
+(16014, '2026-09-26', 86909, 66435, 67784),
+(90353, '2026-10-03', 66435, 84886, 71644),
+(71381, '2026-10-10', 84886, 91198, 33325),
+(99419, '2026-10-17', 91198, 74000, 35438),
+(35973, '2026-10-24', 74000, 29785, 53350),
+(85012, '2026-11-07', 29785, 90733, 29746),
+(45587, '2026-11-14', 90733, 43504, 52856),
+(15621, '2026-11-21', 43504, 8331,  19726),
+(39469, '2026-12-05', 8331,  31021, 71644),
+(57985, '2025-09-06', 84886, 91198, 52856),
+(21730, '2025-09-13', 74000, 29785, 19726),
+(60470, '2025-09-20', 91198, 90733, 33325),
+(1425,  '2025-10-04', 31021, 5207,  71644),
+(95646, '2025-10-11', 84886, 91198, 85259),
+(95329, '2025-10-18', 29785, 43504, 35718),
+(35522, '2025-11-01', 90733, 8331,  35438),
+(66612, '2025-11-08', 29785, 74000, 71644),
+(24416, '2025-11-15', 43504, 8331,  57155),
+(67542, '2025-11-22', 8331,  31021, 53350),
+(14947, '2025-12-06', 5207,  42347, 29746),
+(82959, '2025-12-13', 42347, 53581, 19131),
+(40117, '2025-12-20', 53581, 36093, 98647),
+(84748, '2026-01-10', 36093, 9675,  98912),
+(67540, '2026-01-17', 9675,  28653, 77484),
+(80818, '2026-02-07', 28653, 75341, 19301),
+(27071, '2026-02-14', 75341, 95098, 77622),
+(21032, '2026-02-21', 95098, 42245, 48447),
+(50009, '2026-03-07', 42245, 28869, 67784),
+(22174, '2026-03-14', 28869, 86909, 61142);
 
 -- =============================================================================
--- REGISTRATION (15 registrations)
+-- REGISTRATION (50 rows)
 -- =============================================================================
-INSERT INTO Registration (Customer_ID, Scheduled_Trip_ID, Registration_Waiver, Registration_Status) VALUES
-(1,  1,  1, 'Confirmed'),
-(2,  1,  1, 'Confirmed'),
-(7,  1,  0, 'Confirmed'),
-(9,  1,  1, 'Waitlisted'),
-(3,  2,  1, 'Confirmed'),
-(4,  2,  1, 'Confirmed'),
-(5,  3,  1, 'Confirmed'),
-(8,  3,  0, 'Confirmed'),
-(1,  4,  1, 'Confirmed'),
-(2,  4,  1, 'Confirmed'),
-(6,  5,  1, 'Confirmed'),
-(10, 6,  1, 'Confirmed'),
-(3,  6,  0, 'Waitlisted'),
-(1,  11, 1, 'Confirmed'),
-(5,  12, 1, 'Cancelled');
+INSERT INTO Registration (Registration_ID, Customer_ID, Scheduled_Trip_ID, Registration_Waiver, Registration_Status) VALUES
+(71697, 84810, 65686, 1, 'Confirmed'),
+(70514, 15592, 65686, 1, 'Confirmed'),
+(1074,  30256, 65686, 0, 'Confirmed'),
+(79504, 97530, 65686, 1, 'Waitlisted'),
+(43487, 89696, 65686, 1, 'Confirmed'),
+(65042, 4278,  12915, 1, 'Confirmed'),
+(3552,  98196, 12915, 1, 'Confirmed'),
+(15662, 72482, 12915, 0, 'Confirmed'),
+(48576, 78397, 12915, 1, 'Waitlisted'),
+(41306, 37048, 7175,  1, 'Confirmed'),
+(32385, 19289, 7175,  0, 'Confirmed'),
+(8592,  5165,  7175,  1, 'Confirmed'),
+(32571, 31495, 7175,  1, 'Waitlisted'),
+(75364, 84810, 15371, 1, 'Confirmed'),
+(11322, 15592, 15371, 1, 'Confirmed'),
+(12226, 33098, 21033, 1, 'Confirmed'),
+(96932, 67237, 21033, 0, 'Confirmed'),
+(64699, 74563, 21033, 1, 'Confirmed'),
+(10071, 14434, 83240, 1, 'Confirmed'),
+(70822, 4278,  83240, 0, 'Waitlisted'),
+(17483, 94850, 83240, 1, 'Confirmed'),
+(17828, 98080, 21969, 1, 'Confirmed'),
+(87474, 86181, 21969, 1, 'Confirmed'),
+(63296, 55987, 21969, 0, 'Confirmed'),
+(73063, 29893, 90192, 1, 'Confirmed'),
+(22643, 37463, 90192, 1, 'Confirmed'),
+(35741, 1851,  90192, 0, 'Waitlisted'),
+(70163, 21926, 56333, 1, 'Confirmed'),
+(80507, 92506, 56333, 1, 'Confirmed'),
+(56461, 37421, 56333, 1, 'Cancelled'),
+(28760, 21379, 79172, 1, 'Confirmed'),
+(71686, 14396, 79172, 1, 'Confirmed'),
+(99994, 13156, 79172, 0, 'Confirmed'),
+(96673, 50797, 9326,  1, 'Confirmed'),
+(91422, 13676, 9326,  1, 'Confirmed'),
+(27365, 84810, 57985, 1, 'Confirmed'),
+(94447, 37048, 21730, 1, 'Cancelled'),
+(41857, 30256, 60470, 0, 'Confirmed'),
+(53296, 15592, 1425,  1, 'Confirmed'),
+(89039, 89696, 95646, 1, 'Confirmed'),
+(86180, 4278,  95329, 1, 'Confirmed'),
+(49944, 33098, 35522, 1, 'Confirmed'),
+(58422, 19289, 66612, 0, 'Confirmed'),
+(68839, 56302, 24416, 1, 'Confirmed'),
+(60177, 78397, 24416, 1, 'Waitlisted'),
+(16860, 5165,  67542, 1, 'Confirmed'),
+(33493, 31495, 14947, 1, 'Confirmed'),
+(30451, 67237, 82959, 0, 'Confirmed'),
+(9392,  74563, 40117, 1, 'Confirmed'),
+(45313, 94850, 84748, 1, 'Confirmed');
 
 -- =============================================================================
--- EQUIPMENT_TYPE (6 types)
+-- EQUIPMENT_TYPE (20 rows)
 -- =============================================================================
-INSERT INTO Equipment_Type (Equipment_Name, Student_Rate, Faculty_Alumni_Rate, Guest_Rate) VALUES
-('Osprey Aether 70L Backpack',   2.00, 3.00,  4.00),
-('Big Agnes Copper Spur Tent',   3.00, 4.50,  6.00),
-('Marmot Trestles Sleeping Bag', 1.50, 2.50,  3.50),
-('Perception Kayak',             5.00, 7.50, 10.00),
-('Black Diamond Harness',        2.50, 3.50,  5.00),
-('MSR PocketRocket Stove',       1.00, 1.50,  2.00);
+INSERT INTO Equipment_Type (Equipment_Type_ID, Equipment_Name, Student_Rate, Faculty_Alumni_Rate, Guest_Rate) VALUES
+(3757,  'Osprey Aether 70L Backpack',      2.00,  3.00,  4.00),
+(78110, 'Big Agnes Copper Spur Tent',      3.00,  4.50,  6.00),
+(73603, 'Marmot Trestles Sleeping Bag',    1.50,  2.50,  3.50),
+(31161, 'Perception Kayak',                5.00,  7.50, 10.00),
+(78128, 'Black Diamond Harness',           2.50,  3.50,  5.00),
+(29864, 'MSR PocketRocket Stove',          1.00,  1.50,  2.00),
+(1942,  'Therm-a-Rest Sleeping Pad',       1.00,  1.50,  2.50),
+(10305, 'Deuter Speed Lite Daypack',       1.50,  2.00,  3.00),
+(93778, 'Black Diamond Trekking Poles',    1.00,  1.50,  2.00),
+(83719, 'Pelican Canoe',                   6.00,  9.00, 12.00),
+(8716,  'GoPro Hero Camera',               3.00,  4.00,  5.00),
+(31007, 'REI Half Dome Tent',              2.50,  3.50,  5.00),
+(9834,  'Petzl Headlamp',                  0.75,  1.00,  1.50),
+(5117,  'Nalgene Water Bottle',            0.50,  0.75,  1.00),
+(44309, 'Bear Canister',                   1.50,  2.00,  2.50),
+(10287, 'Yakima Kayak Paddle',             2.00,  3.00,  4.00),
+(68391, 'Mountain Hardwear Down Jacket',   2.50,  3.50,  5.00),
+(32195, 'Trek Mountain Bike',              8.00, 12.00, 16.00),
+(37500, 'Climbing Rope 60m',               3.00,  4.50,  6.00),
+(88684, 'Avalanche Safety Kit',            4.00,  5.50,  7.00);
 
 -- =============================================================================
--- EQUIPMENT_ITEM (15 items)
+-- EQUIPMENT_ITEM (50 rows)
 -- =============================================================================
-INSERT INTO Equipment_Item (Condition_Rating, Equipment_Type_Equipment_Type_ID) VALUES
-('Good', 1),
-('Good', 1),
-('Fair', 1),
-('Good', 2),
-('Fair', 2),
-('Poor', 2),
-('Good', 3),
-('Good', 3),
-('Good', 4),
-('Fair', 4),
-('Good', 4),
-('Good', 5),
-('Fair', 5),
-('Good', 6),
-('Good', 6);
+INSERT INTO Equipment_Item (Item_ID, Condition_Rating, Equipment_Type_Equipment_Type_ID) VALUES
+(64624, 'Good', 3757),
+(29080, 'Good', 3757),
+(71678, 'Fair', 3757),
+(18342, 'Good', 3757),
+(95811, 'Poor', 3757),
+(75847, 'Good', 78110),
+(76525, 'Fair', 78110),
+(62953, 'Poor', 78110),
+(32850, 'Good', 78110),
+(62993, 'Good', 78110),
+(54354, 'Good', 73603),
+(25957, 'Good', 73603),
+(13363, 'Fair', 73603),
+(13704, 'Good', 73603),
+(87374, 'Poor', 73603),
+(57498, 'Good', 31161),
+(47438, 'Fair', 31161),
+(56519, 'Good', 31161),
+(54883, 'Good', 31161),
+(62213, 'Fair', 31161),
+(96561, 'Good', 78128),
+(8100,  'Fair', 78128),
+(89259, 'Good', 78128),
+(86649, 'Good', 78128),
+(85696, 'Poor', 78128),
+(13899, 'Good', 29864),
+(8944,  'Good', 29864),
+(53772, 'Fair', 29864),
+(96448, 'Good', 29864),
+(45473, 'Good', 29864),
+(15322, 'Good', 1942),
+(33591, 'Fair', 1942),
+(26112, 'Good', 1942),
+(25931, 'Good', 1942),
+(71292, 'Good', 1942),
+(59800, 'Good', 10305),
+(19373, 'Good', 10305),
+(56296, 'Fair', 10305),
+(25050, 'Good', 10305),
+(37509, 'Good', 10305),
+(61637, 'Good', 93778),
+(33742, 'Fair', 93778),
+(10880, 'Good', 93778),
+(59082, 'Good', 83719),
+(73132, 'Fair', 83719),
+(13833, 'Good', 8716),
+(7630,  'Good', 31007),
+(86477, 'Fair', 31007),
+(71855, 'Good', 9834),
+(2934,  'Good', 5117);
 
 -- =============================================================================
--- RENTAL_AGREEMENT (8 agreements)
+-- RENTAL_AGREEMENT (50 rows)
 -- =============================================================================
-INSERT INTO Rental_Agreement (Rental_Date, Customer_ID, Staff_ID) VALUES
-('2026-04-03', 1, 1),
-('2026-04-03', 2, 2),
-('2026-04-10', 3, 3),
-('2026-04-18', 5, 1),
-('2026-05-01', 7, 4),
-('2026-05-15', 9, 2),
-('2025-10-09', 1, 5),
-('2025-11-06', 4, 6);
+INSERT INTO Rental_Agreement (Agreement_ID, Rental_Date, Customer_ID, Staff_ID) VALUES
+(13224, '2026-04-03', 84810, 84886),
+(99771, '2026-04-03', 15592, 91198),
+(31982, '2026-04-10', 4278,  74000),
+(22798, '2026-04-18', 37048, 84886),
+(54269, '2026-05-01', 30256, 29785),
+(64653, '2026-05-15', 97530, 91198),
+(64092, '2026-05-20', 89696, 90733),
+(29016, '2026-05-22', 98080, 43504),
+(53565, '2026-06-01', 72482, 8331),
+(8685,  '2026-06-05', 78397, 31021),
+(22579, '2026-06-10', 56302, 5207),
+(50672, '2026-06-15', 5165,  42347),
+(1282,  '2026-06-20', 31495, 53581),
+(52173, '2026-06-25', 67237, 36093),
+(35760, '2026-07-01', 74563, 9675),
+(60638, '2026-07-05', 94850, 28653),
+(38388, '2026-07-10', 86181, 75341),
+(56444, '2026-07-15', 55987, 95098),
+(92303, '2026-07-20', 29893, 42245),
+(96748, '2026-07-25', 37463, 28869),
+(73845, '2026-08-01', 1851,  86909),
+(87752, '2026-08-05', 21926, 66435),
+(95163, '2026-08-10', 92506, 84886),
+(64788, '2026-08-15', 37421, 91198),
+(21289, '2026-08-20', 21379, 74000),
+(25890, '2026-08-25', 14396, 29785),
+(39890, '2026-09-01', 13156, 90733),
+(29534, '2026-09-05', 50797, 43504),
+(8665,  '2026-09-10', 13676, 8331),
+(76914, '2026-09-15', 46082, 31021),
+(97434, '2025-09-05', 84810, 84886),
+(72066, '2025-09-12', 15592, 91198),
+(8989,  '2025-09-19', 37048, 74000),
+(99038, '2025-10-03', 33098, 29785),
+(42104, '2025-10-10', 30256, 90733),
+(8492,  '2025-10-17', 19289, 43504),
+(7572,  '2025-11-01', 89696, 8331),
+(77569, '2025-11-07', 98080, 31021),
+(63493, '2025-11-14', 72482, 5207),
+(66909, '2025-11-21', 78397, 42347),
+(70615, '2025-12-05', 56302, 53581),
+(21635, '2025-12-12', 5165,  36093),
+(8455,  '2025-12-19', 31495, 9675),
+(67562, '2026-01-09', 67237, 28653),
+(11500, '2026-01-16', 74563, 75341),
+(25356, '2026-02-06', 94850, 95098),
+(9981,  '2026-02-13', 86181, 42245),
+(78992, '2026-02-20', 55987, 28869),
+(9907,  '2026-03-06', 29893, 86909),
+(89501, '2026-03-13', 37463, 66435);
 
 -- =============================================================================
--- RENTAL_AGREEMENT_HAS_EQUIPMENT_ITEM (12 line items)
+-- RENTAL_AGREEMENT_HAS_EQUIPMENT_ITEM (50 rows)
 -- =============================================================================
 INSERT INTO Rental_Agreement_has_Equipment_Item (Rental_Agreement_Agreement_ID, Equipment_Item_Item_ID, Expected_return_date, Actual_return_date) VALUES
-(1, 1,  '2026-04-06', '2026-04-06'),
-(1, 7,  '2026-04-06', '2026-04-06'),
-(2, 2,  '2026-04-06', '2026-04-07'),
-(2, 4,  '2026-04-06', '2026-04-06'),
-(3, 9,  '2026-04-13', '2026-04-13'),
-(4, 12, '2026-04-21', '2026-04-21'),
-(5, 3,  '2026-05-04', NULL),
-(5, 14, '2026-05-04', NULL),
-(6, 10, '2026-05-18', NULL),
-(7, 5,  '2025-10-12', '2025-10-13'),
-(8, 8,  '2025-11-10', '2025-11-10'),
-(8, 15, '2025-11-10', '2025-11-10');
+(13224, 64624, '2026-04-06', '2026-04-06'),
+(13224, 54354, '2026-04-06', '2026-04-06'),
+(99771, 29080, '2026-04-06', '2026-04-07'),
+(99771, 75847, '2026-04-06', '2026-04-06'),
+(31982, 57498, '2026-04-13', '2026-04-13'),
+(22798, 96561, '2026-04-21', '2026-04-21'),
+(54269, 71678, '2026-05-04', NULL),
+(54269, 13899, '2026-05-04', NULL),
+(64653, 47438, '2026-05-18', NULL),
+(64092, 59800, '2026-05-23', '2026-05-23'),
+(29016, 61637, '2026-05-25', '2026-05-25'),
+(53565, 18342, '2026-06-04', '2026-06-05'),
+(8685,  76525, '2026-06-08', '2026-06-08'),
+(22579, 15322, '2026-06-13', '2026-06-13'),
+(50672, 25957, '2026-06-17', NULL),
+(1282,  8100,  '2026-06-23', '2026-06-23'),
+(52173, 71855, '2026-06-28', '2026-06-28'),
+(35760, 56519, '2026-07-04', '2026-07-04'),
+(60638, 19373, '2026-07-08', NULL),
+(38388, 8944,  '2026-07-13', '2026-07-13'),
+(56444, 95811, '2026-07-18', '2026-07-19'),
+(92303, 33591, '2026-07-23', '2026-07-23'),
+(96748, 54883, '2026-07-28', '2026-07-28'),
+(73845, 33742, '2026-08-04', NULL),
+(87752, 13363, '2026-08-08', '2026-08-08'),
+(95163, 56296, '2026-08-13', '2026-08-13'),
+(64788, 89259, '2026-08-18', NULL),
+(21289, 59082, '2026-08-23', '2026-08-23'),
+(25890, 62953, '2026-08-28', '2026-08-28'),
+(39890, 26112, '2026-09-04', NULL),
+(29534, 13833, '2026-09-08', '2026-09-08'),
+(8665,  53772, '2026-09-13', '2026-09-13'),
+(76914, 2934,  '2026-09-18', NULL),
+(97434, 64624, '2025-09-08', '2025-09-08'),
+(72066, 29080, '2025-09-15', '2025-09-15'),
+(8989,  57498, '2025-09-22', '2025-09-22'),
+(99038, 54354, '2025-10-06', '2025-10-06'),
+(42104, 75847, '2025-10-13', '2025-10-14'),
+(8492,  59800, '2025-10-20', '2025-10-20'),
+(7572,  15322, '2025-11-04', '2025-11-04'),
+(77569, 61637, '2025-11-10', '2025-11-10'),
+(63493, 76525, '2025-11-17', '2025-11-17'),
+(66909, 25957, '2025-11-24', '2025-11-24'),
+(70615, 8100,  '2025-12-08', '2025-12-08'),
+(21635, 19373, '2025-12-15', '2025-12-15'),
+(8455,  71855, '2025-12-22', '2025-12-22'),
+(67562, 56519, '2026-01-12', '2026-01-12'),
+(11500, 8944,  '2026-01-19', '2026-01-19'),
+(25356, 18342, '2026-02-09', '2026-02-09'),
+(9981,  33591, '2026-02-16', '2026-02-16');
 
 -- =============================================================================
--- SUPPLIER (4 suppliers)
+-- SUPPLIER (4 rows)
 -- =============================================================================
-INSERT INTO Supplier (Supplier_Name, Supplier_Contact_F_name, Supplier_Contact_L_name, Supplier_Phone, Supplier_Email, Supplier_Address) VALUES
-('OutdoorGear Co.',      'Paul',   'Nguyen', '800-555-0301', 'paul@outdoorgear.com',  '123 Trail Rd, Denver CO'),
-('Mountain Supply Inc.', 'Rachel', 'Stone',  '800-555-0302', 'rachel@mtnsupply.com',  '456 Summit Ave, Boulder CO'),
-('Paddle Parts Plus',    'Derek',  'Owens',  '800-555-0303', 'derek@paddleparts.com', '789 River St, Asheville NC'),
-('ClimbRight Parts',     'Jenna',  'Morris', '800-555-0304', 'jenna@climbright.com',  '321 Crag Ln, Chattanooga TN');
+INSERT INTO Supplier (Supplier_ID, Supplier_Name, Supplier_Contact_F_name, Supplier_Contact_L_name, Supplier_Phone, Supplier_Email, Supplier_Address) VALUES
+(31828, 'OutdoorGear Co.',      'Paul',   'Nguyen', '800-555-0301', 'paul@outdoorgear.com',  '123 Trail Rd, Denver CO'),
+(53923, 'Mountain Supply Inc.', 'Rachel', 'Stone',  '800-555-0302', 'rachel@mtnsupply.com',  '456 Summit Ave, Boulder CO'),
+(16713, 'Paddle Parts Plus',    'Derek',  'Owens',  '800-555-0303', 'derek@paddleparts.com', '789 River St, Asheville NC'),
+(75668, 'ClimbRight Parts',     'Jenna',  'Morris', '800-555-0304', 'jenna@climbright.com',  '321 Crag Ln, Chattanooga TN');
 
 -- =============================================================================
--- PART (8 parts)
+-- PART (8 rows)
 -- =============================================================================
-INSERT INTO Part (Part_Name, Part_Unit_Cost, Part_Stock_Quantity, Supplier_ID) VALUES
-('Tent Pole Replacement',    12.99, 15, 1),
-('Sleeping Bag Zipper Kit',   8.50, 20, 1),
-('Backpack Hip Belt Pad',     9.75,  8, 2),
-('Backpack Frame Stay',      14.00,  5, 2),
-('Kayak Foot Peg Set',       22.50, 12, 3),
-('Kayak Seat Cushion',       18.00,  7, 3),
-('Climbing Harness Buckle',  11.25,  3, 4),
-('Webbing Strap 1in x 10ft',  4.50, 25, 4);
+INSERT INTO Part (Part_ID, Part_Name, Part_Unit_Cost, Part_Stock_Quantity, Supplier_ID) VALUES
+(33271, 'Tent Pole Replacement',     12.99, 15, 31828),
+(76880, 'Sleeping Bag Zipper Kit',    8.50, 20, 31828),
+(78924, 'Backpack Hip Belt Pad',      9.75,  8, 53923),
+(6209,  'Backpack Frame Stay',       14.00,  5, 53923),
+(82183, 'Kayak Foot Peg Set',        22.50, 12, 16713),
+(11745, 'Kayak Seat Cushion',        18.00,  7, 16713),
+(55948, 'Climbing Harness Buckle',   11.25,  3, 75668),
+(87163, 'Webbing Strap 1in x 10ft',   4.50, 25, 75668);
 
 -- =============================================================================
--- MAINTENANCE_REQUEST (6 requests)
+-- MAINTENANCE_REQUEST (20 rows)
 -- =============================================================================
-INSERT INTO Maintenance_Request (Request_Date, Issue_Description, Priority, Status, Item_ID, Staff_ID) VALUES
-('2026-03-10', 'Tent pole bent and cracked on one side',        'High',   'Closed',      6,  3),
-('2026-03-15', 'Kayak foot pegs loose and slipping during use', 'High',   'Closed',      10, 4),
-('2026-03-20', 'Sleeping bag zipper broken, will not close',    'Medium', 'Closed',      8,  5),
-('2026-04-01', 'Backpack hip belt pad torn and worn through',   'Medium', 'In Progress', 3,  3),
-('2026-04-05', 'Harness buckle cracked, unsafe for use',       'High',   'Open',        13, 6),
-('2026-04-08', 'Kayak seat cushion delaminating',               'Low',    'Open',        11, 4);
+INSERT INTO Maintenance_Request (Request_ID, Request_Date, Issue_Description, Priority, Status, Item_ID, Staff_ID) VALUES
+(77503, '2026-01-05', 'Tent pole cracked on one side',              'High',   'Closed',      62953, 74000),
+(75085, '2026-01-10', 'Kayak foot pegs loose during use',           'High',   'Closed',      47438, 29785),
+(69522, '2026-01-15', 'Sleeping bag zipper broken',                 'Medium', 'Closed',      13363, 90733),
+(42467, '2026-01-20', 'Backpack hip belt pad torn through',         'Medium', 'Closed',      71678, 74000),
+(35179, '2026-02-01', 'Harness buckle cracked, unsafe',            'High',   'Closed',      85696, 43504),
+(27772, '2026-02-08', 'Kayak seat cushion delaminating',            'Low',    'Closed',      62213, 29785),
+(88782, '2026-02-15', 'Trekking pole basket missing',               'Low',    'Closed',      33742, 8331),
+(94872, '2026-02-20', 'Tent rainfly seam leaking badly',            'High',   'Closed',      76525, 74000),
+(42180, '2026-03-01', 'Sleeping pad valve not sealing',             'Medium', 'Closed',      33591, 90733),
+(32285, '2026-03-08', 'Climbing rope sheath fraying at one end',    'High',   'Closed',      8100,  43504),
+(35814, '2026-03-15', 'Canoe gunwale cracked near bow',             'Medium', 'In Progress', 73132, 8331),
+(52876, '2026-03-20', 'Headlamp switch not responding',             'Low',    'In Progress', 71855, 31021),
+(18154, '2026-03-25', 'Mountain bike rear derailleur bent',         'High',   'In Progress', 59082, 5207),
+(89039, '2026-04-01', 'Stove igniter not sparking',                 'Medium', 'In Progress', 53772, 74000),
+(85607, '2026-04-03', 'Daypack zipper pull broken off',             'Low',    'Open',        56296, 91198),
+(40321, '2026-04-05', 'Backpack shoulder strap stitching loose',    'Medium', 'Open',        95811, 84886),
+(60929, '2026-04-06', 'Kayak hull small crack near stern',          'High',   'Open',        62213, 29785),
+(42441, '2026-04-07', 'Sleeping bag loft significantly reduced',    'Low',    'Open',        87374, 90733),
+(99548, '2026-04-08', 'Harness leg loop webbing worn thin',         'High',   'Open',        22101, 43504),
+(10508, '2026-04-09', 'Tent pole ferrule loose and wobbling',       'Medium', 'Open',        95811, 74000);
 
 -- =============================================================================
--- MAINTENANCE_LOG (5 log entries)
+-- MAINTENANCE_LOG (20 rows)
 -- =============================================================================
-INSERT INTO Maintenance_Log (Maintenance_Date, Work_Done_Desc, Outcome, Maintenance_Count, Cost_of_Maintenance, Maintenance_Request_ID, Performed_by_Staff_ID, Item_ID) VALUES
-('2026-03-12', 'Replaced cracked tent pole section',         'Resolved', 1, 18.50, 1, 3, 6),
-('2026-03-17', 'Replaced both kayak foot peg assemblies',    'Resolved', 1, 35.00, 2, 4, 10),
-('2026-03-22', 'Replaced broken sleeping bag zipper',        'Resolved', 1, 12.00, 3, 5, 8),
-('2026-04-03', 'Removed old hip belt pad, ordered new one',  'Ongoing',  1,  5.00, 4, 3, 3),
-('2026-04-04', 'Installed new hip belt pad and tested fit',  'Resolved', 2, 14.75, 4, 3, 3);
+INSERT INTO Maintenance_Log (Log_ID, Maintenance_Date, Work_Done_Desc, Outcome, Maintenance_Count, Cost_of_Maintenance, Maintenance_Request_ID, Performed_by_Staff_ID, Item_ID) VALUES
+(2220,  '2026-01-07', 'Replaced cracked tent pole segment',            'Resolved', 1, 18.50, 77503, 74000, 62953),
+(61068, '2026-01-12', 'Replaced both kayak foot peg assemblies',       'Resolved', 1, 35.00, 75085, 29785, 47438),
+(82416, '2026-01-17', 'Replaced broken sleeping bag zipper',           'Resolved', 1, 12.00, 69522, 90733, 13363),
+(74792, '2026-01-22', 'Removed and replaced hip belt pad',             'Resolved', 1, 14.75, 42467, 74000, 71678),
+(14104, '2026-02-03', 'Replaced cracked harness buckle',               'Resolved', 1, 16.00, 35179, 43504, 85696),
+(10602, '2026-02-10', 'Reglued and pressed kayak seat cushion',        'Resolved', 1,  9.50, 27772, 29785, 62213),
+(71468, '2026-02-17', 'Replaced missing trekking pole basket',         'Resolved', 1,  6.00, 88782, 8331,  33742),
+(28938, '2026-02-22', 'Resealed tent rainfly seams with seam tape',    'Resolved', 1, 11.00, 94872, 74000, 76525),
+(67307, '2026-03-03', 'Replaced sleeping pad valve core',              'Resolved', 1,  8.25, 42180, 90733, 33591),
+(35760, '2026-03-10', 'Trimmed and heat-sealed fraying rope sheath',   'Resolved', 1, 20.00, 32285, 43504, 8100),
+(18361, '2026-03-17', 'Applied fiberglass patch to canoe gunwale',     'Ongoing',  1, 25.00, 35814, 8331,  73132),
+(46745, '2026-03-22', 'Replaced headlamp switch mechanism',            'Ongoing',  1,  7.50, 52876, 31021, 71855),
+(10016, '2026-03-27', 'Straightened and adjusted rear derailleur',     'Ongoing',  1, 30.00, 18154, 5207,  59082),
+(33018, '2026-04-02', 'Cleaned stove and replaced igniter module',     'Ongoing',  1, 13.00, 89039, 74000, 53772),
+(49434, '2026-03-18', 'Completed gunwale patch and sanded smooth',     'Resolved', 2, 15.00, 35814, 8331,  73132),
+(38353, '2026-03-23', 'Tested headlamp after switch replacement',      'Resolved', 2,  2.00, 52876, 31021, 71855),
+(21676, '2026-04-01', 'Finished derailleur alignment and road test',   'Resolved', 2, 10.00, 18154, 5207,  59082),
+(58433, '2026-04-04', 'Stove tested after igniter replacement',        'Resolved', 2,  3.00, 89039, 74000, 53772),
+(72200, '2026-01-08', 'Inspected all tent poles after initial report', 'Resolved', 2,  5.00, 77503, 74000, 62953),
+(93214, '2026-02-04', 'Final inspection of harness post-repair',       'Resolved', 2,  4.00, 35179, 43504, 85696);
 
 -- =============================================================================
--- MAINTENANCE_PART (6 part usage records)
+-- MAINTENANCE_PART (20 rows)
 -- =============================================================================
-INSERT INTO Maintenance_Part (Quantity_Used, Maintenance_Log_ID, Part_ID) VALUES
-(1, 1, 1),   -- Tent Pole Replacement used in log 1
-(1, 2, 5),   -- Kayak Foot Peg Set used in log 2
-(1, 3, 2),   -- Sleeping Bag Zipper Kit used in log 3
-(1, 4, 3),   -- Backpack Hip Belt Pad ordered in log 4
-(1, 5, 3),   -- Backpack Hip Belt Pad installed in log 5
-(2, 5, 8);   -- Webbing Strap also used in log 5
+INSERT INTO Maintenance_Part (Maintenance_Part_ID, Quantity_Used, Maintenance_Log_ID, Part_ID) VALUES
+(40651, 1, 2220,  33271),
+(81173, 1, 61068, 82183),
+(86717, 1, 82416, 76880),
+(70329, 1, 74792, 78924),
+(2025,  1, 14104, 55948),
+(88538, 1, 10602, 11745),
+(73692, 1, 28938, 33271),
+(40240, 2, 35760, 87163),
+(87951, 1, 10016, 6209),
+(14577, 1, 33018, 82183),
+(18601, 1, 49434, 33271),
+(35664, 1, 38353, 76880),
+(16129, 1, 21676, 6209),
+(15029, 1, 58433, 82183),
+(98310, 2, 72200, 33271),
+(73512, 1, 93214, 55948),
+(21374, 2, 74792, 87163),
+(36697, 1, 14104, 78924),
+(37930, 1, 61068, 11745),
+(80276, 3, 35760, 87163);
