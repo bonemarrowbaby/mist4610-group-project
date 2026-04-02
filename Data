@@ -1,8 +1,8 @@
+
 -- =============================================================================
--- Wilderness Exploration Society (WES) — Sample Data (Expanded)
+-- Wilderness Exploration Society (WES) — Sample Data (Final)
 -- MIST 4610 | Group Project | Case #1
 -- University of Georgia — Terry College of Business | Spring 2026
--- All ID values are randomized 4-5 digit numbers
 -- =============================================================================
 
 USE WES;
@@ -103,24 +103,24 @@ INSERT INTO Member (Member_ID, University_Role, Customer_ID) VALUES
 (88841, 'Professor',              29221);
 
 -- =============================================================================
--- GUEST (15 rows)
+-- GUEST (15 rows) — Guest_ID is AUTO_INCREMENT
 -- =============================================================================
-INSERT INTO Guest (Guest_ID, Customer_ID, Sponsor_ID) VALUES
-(35993, 97530, 84810),
-(92988, 14434, 37048),
-(90593, 13280, 15592),
-(85939, 29657, 33098),
-(10358, 92924, 30256),
-(80840, 72426, 89696),
-(84227, 56392, 78397),
-(23431, 45597, 56302),
-(71010, 48052, 4278),
-(96568, 46082, 98196),
-(33087, 13280, 72482),
-(22417, 29657, 12395),
-(61589, 92924, 74563),
-(50735, 72426, 27062),
-(36382, 48052, 21379);
+INSERT INTO Guest (Customer_ID, Sponsor_ID) VALUES
+(97530, 84810),
+(14434, 37048),
+(13280, 15592),
+(29657, 33098),
+(92924, 30256),
+(72426, 89696),
+(56392, 78397),
+(45597, 56302),
+(48052, 4278),
+(46082, 98196),
+(13280, 72482),
+(29657, 12395),
+(92924, 74563),
+(72426, 27062),
+(48052, 21379);
 
 -- =============================================================================
 -- STAFF (20 rows)
@@ -176,26 +176,26 @@ INSERT INTO Trip_Type (Trip_Type_ID, Trip_Type_Name, Trip_Type_Diff_Lvl, Trip_Ty
 -- TRIP_PREREQUISITE (20 rows)
 -- =============================================================================
 INSERT INTO Trip_Prerequisite (Trip_Type_ID, Prerequisite_Trip_Type_ID) VALUES
-(85259, 52856),  -- Intermediate Kayaking requires Beginner Kayaking
-(61142, 85259),  -- Advanced Kayaking requires Intermediate Kayaking
-(35718, 19726),  -- Intermediate Backpacking requires Beginner Backpacking
-(19301, 35718),  -- Advanced Backpacking requires Intermediate Backpacking
-(98647, 33325),  -- Intermediate Rock Climbing requires Beginner Rock Climbing
-(74579, 98647),  -- Advanced Rock Climbing requires Intermediate Rock Climbing
-(98912, 35438),  -- Intermediate Mountain Biking requires Beginner Mountain Biking
-(77622, 98912),  -- Advanced Mountain Biking requires Intermediate Mountain Biking
-(77484, 57155),  -- Overnight Canoe Trip requires Canoe Day Trip
-(67784, 19131),  -- Advanced Whitewater Rafting requires Beginner Whitewater Rafting
-(48447, 35718),  -- Wilderness Survival Course requires Intermediate Backpacking
-(48447, 61142),  -- Wilderness Survival Course requires Advanced Kayaking
-(19301, 33325),  -- Advanced Backpacking requires Beginner Rock Climbing
-(74579, 61142),  -- Advanced Rock Climbing requires Advanced Kayaking
-(77622, 61142),  -- Advanced Mountain Biking requires Advanced Kayaking
-(67784, 85259),  -- Advanced Whitewater Rafting requires Intermediate Kayaking
-(77484, 52856),  -- Overnight Canoe requires Beginner Kayaking
-(98647, 19726),  -- Intermediate Rock Climbing requires Beginner Backpacking
-(61142, 52856),  -- Advanced Kayaking requires Beginner Kayaking
-(19131, 52856);  -- Beginner Whitewater Rafting requires Beginner Kayaking
+(85259, 52856),
+(61142, 85259),
+(35718, 19726),
+(19301, 35718),
+(98647, 33325),
+(74579, 98647),
+(98912, 35438),
+(77622, 98912),
+(77484, 57155),
+(67784, 19131),
+(48447, 35718),
+(48447, 61142),
+(19301, 33325),
+(74579, 61142),
+(77622, 61142),
+(67784, 85259),
+(77484, 52856),
+(98647, 19726),
+(61142, 52856),
+(19131, 52856);
 
 -- =============================================================================
 -- SCHEDULED_TRIP (50 rows)
@@ -333,59 +333,19 @@ INSERT INTO Equipment_Type (Equipment_Type_ID, Equipment_Name, Student_Rate, Fac
 (88684, 'Avalanche Safety Kit',            4.00,  5.50,  7.00);
 
 -- =============================================================================
--- EQUIPMENT_ITEM (50 rows)
+-- EQUIPMENT_ITEM (50 rows) — Item_ID is AUTO_INCREMENT (assigned 1-50)
 -- =============================================================================
-INSERT INTO Equipment_Item (Item_ID, Condition_Rating, Equipment_Type_Equipment_Type_ID) VALUES
-(64624, 'Good', 3757),
-(29080, 'Good', 3757),
-(71678, 'Fair', 3757),
-(18342, 'Good', 3757),
-(95811, 'Poor', 3757),
-(75847, 'Good', 78110),
-(76525, 'Fair', 78110),
-(62953, 'Poor', 78110),
-(32850, 'Good', 78110),
-(62993, 'Good', 78110),
-(54354, 'Good', 73603),
-(25957, 'Good', 73603),
-(13363, 'Fair', 73603),
-(13704, 'Good', 73603),
-(87374, 'Poor', 73603),
-(57498, 'Good', 31161),
-(47438, 'Fair', 31161),
-(56519, 'Good', 31161),
-(54883, 'Good', 31161),
-(62213, 'Fair', 31161),
-(96561, 'Good', 78128),
-(8100,  'Fair', 78128),
-(89259, 'Good', 78128),
-(86649, 'Good', 78128),
-(85696, 'Poor', 78128),
-(13899, 'Good', 29864),
-(8944,  'Good', 29864),
-(53772, 'Fair', 29864),
-(96448, 'Good', 29864),
-(45473, 'Good', 29864),
-(15322, 'Good', 1942),
-(33591, 'Fair', 1942),
-(26112, 'Good', 1942),
-(25931, 'Good', 1942),
-(71292, 'Good', 1942),
-(59800, 'Good', 10305),
-(19373, 'Good', 10305),
-(56296, 'Fair', 10305),
-(25050, 'Good', 10305),
-(37509, 'Good', 10305),
-(61637, 'Good', 93778),
-(33742, 'Fair', 93778),
-(10880, 'Good', 93778),
-(59082, 'Good', 83719),
-(73132, 'Fair', 83719),
-(13833, 'Good', 8716),
-(7630,  'Good', 31007),
-(86477, 'Fair', 31007),
-(71855, 'Good', 9834),
-(2934,  'Good', 5117);
+INSERT INTO Equipment_Item (Condition_Rating, Equipment_Type_Equipment_Type_ID) VALUES
+('Good', 3757), ('Good', 3757), ('Fair', 3757), ('Good', 3757), ('Poor', 3757),
+('Good', 78110), ('Fair', 78110), ('Poor', 78110), ('Good', 78110), ('Good', 78110),
+('Good', 73603), ('Good', 73603), ('Fair', 73603), ('Good', 73603), ('Poor', 73603),
+('Good', 31161), ('Fair', 31161), ('Good', 31161), ('Good', 31161), ('Fair', 31161),
+('Good', 78128), ('Fair', 78128), ('Good', 78128), ('Good', 78128), ('Poor', 78128),
+('Good', 29864), ('Good', 29864), ('Fair', 29864), ('Good', 29864), ('Good', 29864),
+('Good', 1942),  ('Fair', 1942),  ('Good', 1942),  ('Good', 1942),  ('Good', 1942),
+('Good', 10305), ('Good', 10305), ('Fair', 10305), ('Good', 10305), ('Good', 10305),
+('Good', 93778), ('Fair', 93778), ('Good', 93778), ('Good', 83719), ('Fair', 83719),
+('Good', 8716),  ('Good', 31007), ('Fair', 31007), ('Good', 9834),  ('Good', 5117);
 
 -- =============================================================================
 -- RENTAL_AGREEMENT (50 rows)
@@ -444,58 +404,59 @@ INSERT INTO Rental_Agreement (Agreement_ID, Rental_Date, Customer_ID, Staff_ID) 
 
 -- =============================================================================
 -- RENTAL_AGREEMENT_HAS_EQUIPMENT_ITEM (50 rows)
+-- Item_IDs are sequential 1-50 as assigned by AUTO_INCREMENT
 -- =============================================================================
 INSERT INTO Rental_Agreement_has_Equipment_Item (Rental_Agreement_Agreement_ID, Equipment_Item_Item_ID, Expected_return_date, Actual_return_date) VALUES
-(13224, 64624, '2026-04-06', '2026-04-06'),
-(13224, 54354, '2026-04-06', '2026-04-06'),
-(99771, 29080, '2026-04-06', '2026-04-07'),
-(99771, 75847, '2026-04-06', '2026-04-06'),
-(31982, 57498, '2026-04-13', '2026-04-13'),
-(22798, 96561, '2026-04-21', '2026-04-21'),
-(54269, 71678, '2026-05-04', NULL),
-(54269, 13899, '2026-05-04', NULL),
-(64653, 47438, '2026-05-18', NULL),
-(64092, 59800, '2026-05-23', '2026-05-23'),
-(29016, 61637, '2026-05-25', '2026-05-25'),
-(53565, 18342, '2026-06-04', '2026-06-05'),
-(8685,  76525, '2026-06-08', '2026-06-08'),
-(22579, 15322, '2026-06-13', '2026-06-13'),
-(50672, 25957, '2026-06-17', NULL),
-(1282,  8100,  '2026-06-23', '2026-06-23'),
-(52173, 71855, '2026-06-28', '2026-06-28'),
-(35760, 56519, '2026-07-04', '2026-07-04'),
-(60638, 19373, '2026-07-08', NULL),
-(38388, 8944,  '2026-07-13', '2026-07-13'),
-(56444, 95811, '2026-07-18', '2026-07-19'),
-(92303, 33591, '2026-07-23', '2026-07-23'),
-(96748, 54883, '2026-07-28', '2026-07-28'),
-(73845, 33742, '2026-08-04', NULL),
-(87752, 13363, '2026-08-08', '2026-08-08'),
-(95163, 56296, '2026-08-13', '2026-08-13'),
-(64788, 89259, '2026-08-18', NULL),
-(21289, 59082, '2026-08-23', '2026-08-23'),
-(25890, 62953, '2026-08-28', '2026-08-28'),
-(39890, 26112, '2026-09-04', NULL),
-(29534, 13833, '2026-09-08', '2026-09-08'),
-(8665,  53772, '2026-09-13', '2026-09-13'),
-(76914, 2934,  '2026-09-18', NULL),
-(97434, 64624, '2025-09-08', '2025-09-08'),
-(72066, 29080, '2025-09-15', '2025-09-15'),
-(8989,  57498, '2025-09-22', '2025-09-22'),
-(99038, 54354, '2025-10-06', '2025-10-06'),
-(42104, 75847, '2025-10-13', '2025-10-14'),
-(8492,  59800, '2025-10-20', '2025-10-20'),
-(7572,  15322, '2025-11-04', '2025-11-04'),
-(77569, 61637, '2025-11-10', '2025-11-10'),
-(63493, 76525, '2025-11-17', '2025-11-17'),
-(66909, 25957, '2025-11-24', '2025-11-24'),
-(70615, 8100,  '2025-12-08', '2025-12-08'),
-(21635, 19373, '2025-12-15', '2025-12-15'),
-(8455,  71855, '2025-12-22', '2025-12-22'),
-(67562, 56519, '2026-01-12', '2026-01-12'),
-(11500, 8944,  '2026-01-19', '2026-01-19'),
-(25356, 18342, '2026-02-09', '2026-02-09'),
-(9981,  33591, '2026-02-16', '2026-02-16');
+(13224, 1,  '2026-04-06', '2026-04-06'),
+(13224, 11, '2026-04-06', '2026-04-06'),
+(99771, 2,  '2026-04-06', '2026-04-07'),
+(99771, 6,  '2026-04-06', '2026-04-06'),
+(31982, 16, '2026-04-13', '2026-04-13'),
+(22798, 21, '2026-04-21', '2026-04-21'),
+(54269, 3,  '2026-05-04', NULL),
+(54269, 26, '2026-05-04', NULL),
+(64653, 17, '2026-05-18', NULL),
+(64092, 36, '2026-05-23', '2026-05-23'),
+(29016, 41, '2026-05-25', '2026-05-25'),
+(53565, 4,  '2026-06-04', '2026-06-05'),
+(8685,  7,  '2026-06-08', '2026-06-08'),
+(22579, 31, '2026-06-13', '2026-06-13'),
+(50672, 12, '2026-06-17', NULL),
+(1282,  22, '2026-06-23', '2026-06-23'),
+(52173, 49, '2026-06-28', '2026-06-28'),
+(35760, 18, '2026-07-04', '2026-07-04'),
+(60638, 37, '2026-07-08', NULL),
+(38388, 27, '2026-07-13', '2026-07-13'),
+(56444, 5,  '2026-07-18', '2026-07-19'),
+(92303, 32, '2026-07-23', '2026-07-23'),
+(96748, 19, '2026-07-28', '2026-07-28'),
+(73845, 42, '2026-08-04', NULL),
+(87752, 13, '2026-08-08', '2026-08-08'),
+(95163, 38, '2026-08-13', '2026-08-13'),
+(64788, 23, '2026-08-18', NULL),
+(21289, 44, '2026-08-23', '2026-08-23'),
+(25890, 8,  '2026-08-28', '2026-08-28'),
+(39890, 33, '2026-09-04', NULL),
+(29534, 46, '2026-09-08', '2026-09-08'),
+(8665,  28, '2026-09-13', '2026-09-13'),
+(76914, 50, '2026-09-18', NULL),
+(97434, 1,  '2025-09-08', '2025-09-08'),
+(72066, 2,  '2025-09-15', '2025-09-15'),
+(8989,  16, '2025-09-22', '2025-09-22'),
+(99038, 11, '2025-10-06', '2025-10-06'),
+(42104, 6,  '2025-10-13', '2025-10-14'),
+(8492,  36, '2025-10-20', '2025-10-20'),
+(7572,  31, '2025-11-04', '2025-11-04'),
+(77569, 41, '2025-11-10', '2025-11-10'),
+(63493, 7,  '2025-11-17', '2025-11-17'),
+(66909, 12, '2025-11-24', '2025-11-24'),
+(70615, 22, '2025-12-08', '2025-12-08'),
+(21635, 37, '2025-12-15', '2025-12-15'),
+(8455,  49, '2025-12-22', '2025-12-22'),
+(67562, 18, '2026-01-12', '2026-01-12'),
+(11500, 27, '2026-01-19', '2026-01-19'),
+(25356, 4,  '2026-02-09', '2026-02-09'),
+(9981,  32, '2026-02-16', '2026-02-16');
 
 -- =============================================================================
 -- SUPPLIER (4 rows)
@@ -520,76 +481,77 @@ INSERT INTO Part (Part_ID, Part_Name, Part_Unit_Cost, Part_Stock_Quantity, Suppl
 (87163, 'Webbing Strap 1in x 10ft',   4.50, 25, 75668);
 
 -- =============================================================================
--- MAINTENANCE_REQUEST (20 rows)
+-- MAINTENANCE_REQUEST (20 rows) — Request_ID is AUTO_INCREMENT (assigned 1-20)
 -- =============================================================================
-INSERT INTO Maintenance_Request (Request_ID, Request_Date, Issue_Description, Priority, Status, Item_ID, Staff_ID) VALUES
-(77503, '2026-01-05', 'Tent pole cracked on one side',              'High',   'Closed',      62953, 74000),
-(75085, '2026-01-10', 'Kayak foot pegs loose during use',           'High',   'Closed',      47438, 29785),
-(69522, '2026-01-15', 'Sleeping bag zipper broken',                 'Medium', 'Closed',      13363, 90733),
-(42467, '2026-01-20', 'Backpack hip belt pad torn through',         'Medium', 'Closed',      71678, 74000),
-(35179, '2026-02-01', 'Harness buckle cracked, unsafe',            'High',   'Closed',      85696, 43504),
-(27772, '2026-02-08', 'Kayak seat cushion delaminating',            'Low',    'Closed',      62213, 29785),
-(88782, '2026-02-15', 'Trekking pole basket missing',               'Low',    'Closed',      33742, 8331),
-(94872, '2026-02-20', 'Tent rainfly seam leaking badly',            'High',   'Closed',      76525, 74000),
-(42180, '2026-03-01', 'Sleeping pad valve not sealing',             'Medium', 'Closed',      33591, 90733),
-(32285, '2026-03-08', 'Climbing rope sheath fraying at one end',    'High',   'Closed',      8100,  43504),
-(35814, '2026-03-15', 'Canoe gunwale cracked near bow',             'Medium', 'In Progress', 73132, 8331),
-(52876, '2026-03-20', 'Headlamp switch not responding',             'Low',    'In Progress', 71855, 31021),
-(18154, '2026-03-25', 'Mountain bike rear derailleur bent',         'High',   'In Progress', 59082, 5207),
-(89039, '2026-04-01', 'Stove igniter not sparking',                 'Medium', 'In Progress', 53772, 74000),
-(85607, '2026-04-03', 'Daypack zipper pull broken off',             'Low',    'Open',        56296, 91198),
-(40321, '2026-04-05', 'Backpack shoulder strap stitching loose',    'Medium', 'Open',        95811, 84886),
-(60929, '2026-04-06', 'Kayak hull small crack near stern',          'High',   'Open',        62213, 29785),
-(42441, '2026-04-07', 'Sleeping bag loft significantly reduced',    'Low',    'Open',        87374, 90733),
-(99548, '2026-04-08', 'Harness leg loop webbing worn thin',         'High',   'Open',        22101, 43504),
-(10508, '2026-04-09', 'Tent pole ferrule loose and wobbling',       'Medium', 'Open',        95811, 74000);
+INSERT INTO Maintenance_Request (Request_Date, Issue_Description, Priority, Status, Item_ID, Staff_ID) VALUES
+('2026-01-05', 'Tent pole cracked on one side',              'High',   'Closed',      8,  74000),
+('2026-01-10', 'Kayak foot pegs loose during use',           'High',   'Closed',      17, 29785),
+('2026-01-15', 'Sleeping bag zipper broken',                 'Medium', 'Closed',      13, 90733),
+('2026-01-20', 'Backpack hip belt pad torn through',         'Medium', 'Closed',      3,  74000),
+('2026-02-01', 'Harness buckle cracked, unsafe',            'High',   'Closed',      25, 43504),
+('2026-02-08', 'Kayak seat cushion delaminating',            'Low',    'Closed',      20, 29785),
+('2026-02-15', 'Trekking pole basket missing',               'Low',    'Closed',      42, 8331),
+('2026-02-20', 'Tent rainfly seam leaking badly',            'High',   'Closed',      7,  74000),
+('2026-03-01', 'Sleeping pad valve not sealing',             'Medium', 'Closed',      32, 90733),
+('2026-03-08', 'Climbing rope sheath fraying at one end',    'High',   'Closed',      22, 43504),
+('2026-03-15', 'Canoe gunwale cracked near bow',             'Medium', 'In Progress', 45, 8331),
+('2026-03-20', 'Headlamp switch not responding',             'Low',    'In Progress', 49, 31021),
+('2026-03-25', 'Mountain bike rear derailleur bent',         'High',   'In Progress', 44, 5207),
+('2026-04-01', 'Stove igniter not sparking',                 'Medium', 'In Progress', 28, 74000),
+('2026-04-03', 'Daypack zipper pull broken off',             'Low',    'Open',        38, 91198),
+('2026-04-05', 'Backpack shoulder strap stitching loose',    'Medium', 'Open',        5,  84886),
+('2026-04-06', 'Kayak hull small crack near stern',          'High',   'Open',        20, 29785),
+('2026-04-07', 'Sleeping bag loft significantly reduced',    'Low',    'Open',        15, 90733),
+('2026-04-08', 'Harness leg loop webbing worn thin',         'High',   'Open',        21, 43504),
+('2026-04-09', 'Tent pole ferrule loose and wobbling',       'Medium', 'Open',        5,  74000);
 
 -- =============================================================================
--- MAINTENANCE_LOG (20 rows)
+-- MAINTENANCE_LOG (20 rows) — Log_ID is AUTO_INCREMENT (assigned 1-20)
+-- Maintenance_Request_ID references Request_IDs 1-20 assigned above
 -- =============================================================================
-INSERT INTO Maintenance_Log (Log_ID, Maintenance_Date, Work_Done_Desc, Outcome, Maintenance_Count, Cost_of_Maintenance, Maintenance_Request_ID, Performed_by_Staff_ID, Item_ID) VALUES
-(2220,  '2026-01-07', 'Replaced cracked tent pole segment',            'Resolved', 1, 18.50, 77503, 74000, 62953),
-(61068, '2026-01-12', 'Replaced both kayak foot peg assemblies',       'Resolved', 1, 35.00, 75085, 29785, 47438),
-(82416, '2026-01-17', 'Replaced broken sleeping bag zipper',           'Resolved', 1, 12.00, 69522, 90733, 13363),
-(74792, '2026-01-22', 'Removed and replaced hip belt pad',             'Resolved', 1, 14.75, 42467, 74000, 71678),
-(14104, '2026-02-03', 'Replaced cracked harness buckle',               'Resolved', 1, 16.00, 35179, 43504, 85696),
-(10602, '2026-02-10', 'Reglued and pressed kayak seat cushion',        'Resolved', 1,  9.50, 27772, 29785, 62213),
-(71468, '2026-02-17', 'Replaced missing trekking pole basket',         'Resolved', 1,  6.00, 88782, 8331,  33742),
-(28938, '2026-02-22', 'Resealed tent rainfly seams with seam tape',    'Resolved', 1, 11.00, 94872, 74000, 76525),
-(67307, '2026-03-03', 'Replaced sleeping pad valve core',              'Resolved', 1,  8.25, 42180, 90733, 33591),
-(35760, '2026-03-10', 'Trimmed and heat-sealed fraying rope sheath',   'Resolved', 1, 20.00, 32285, 43504, 8100),
-(18361, '2026-03-17', 'Applied fiberglass patch to canoe gunwale',     'Ongoing',  1, 25.00, 35814, 8331,  73132),
-(46745, '2026-03-22', 'Replaced headlamp switch mechanism',            'Ongoing',  1,  7.50, 52876, 31021, 71855),
-(10016, '2026-03-27', 'Straightened and adjusted rear derailleur',     'Ongoing',  1, 30.00, 18154, 5207,  59082),
-(33018, '2026-04-02', 'Cleaned stove and replaced igniter module',     'Ongoing',  1, 13.00, 89039, 74000, 53772),
-(49434, '2026-03-18', 'Completed gunwale patch and sanded smooth',     'Resolved', 2, 15.00, 35814, 8331,  73132),
-(38353, '2026-03-23', 'Tested headlamp after switch replacement',      'Resolved', 2,  2.00, 52876, 31021, 71855),
-(21676, '2026-04-01', 'Finished derailleur alignment and road test',   'Resolved', 2, 10.00, 18154, 5207,  59082),
-(58433, '2026-04-04', 'Stove tested after igniter replacement',        'Resolved', 2,  3.00, 89039, 74000, 53772),
-(72200, '2026-01-08', 'Inspected all tent poles after initial report', 'Resolved', 2,  5.00, 77503, 74000, 62953),
-(93214, '2026-02-04', 'Final inspection of harness post-repair',       'Resolved', 2,  4.00, 35179, 43504, 85696);
+INSERT INTO Maintenance_Log (Maintenance_Date, Work_Done_Desc, Outcome, Maintenance_Count, Cost_of_Maintenance, Maintenance_Request_ID, Performed_by_Staff_ID, Item_ID) VALUES
+('2026-01-07', 'Replaced cracked tent pole segment',            'Resolved', 1, 18.50, 1,  74000, 8),
+('2026-01-12', 'Replaced both kayak foot peg assemblies',       'Resolved', 1, 35.00, 2,  29785, 17),
+('2026-01-17', 'Replaced broken sleeping bag zipper',           'Resolved', 1, 12.00, 3,  90733, 13),
+('2026-01-22', 'Removed and replaced hip belt pad',             'Resolved', 1, 14.75, 4,  74000, 3),
+('2026-02-03', 'Replaced cracked harness buckle',               'Resolved', 1, 16.00, 5,  43504, 25),
+('2026-02-10', 'Reglued and pressed kayak seat cushion',        'Resolved', 1,  9.50, 6,  29785, 20),
+('2026-02-17', 'Replaced missing trekking pole basket',         'Resolved', 1,  6.00, 7,  8331,  42),
+('2026-02-22', 'Resealed tent rainfly seams with seam tape',    'Resolved', 1, 11.00, 8,  74000, 7),
+('2026-03-03', 'Replaced sleeping pad valve core',              'Resolved', 1,  8.25, 9,  90733, 32),
+('2026-03-10', 'Trimmed and heat-sealed fraying rope sheath',   'Resolved', 1, 20.00, 10, 43504, 22),
+('2026-03-17', 'Applied fiberglass patch to canoe gunwale',     'Ongoing',  1, 25.00, 11, 8331,  45),
+('2026-03-22', 'Replaced headlamp switch mechanism',            'Ongoing',  1,  7.50, 12, 31021, 49),
+('2026-03-27', 'Straightened and adjusted rear derailleur',     'Ongoing',  1, 30.00, 13, 5207,  44),
+('2026-04-02', 'Cleaned stove and replaced igniter module',     'Ongoing',  1, 13.00, 14, 74000, 28),
+('2026-03-18', 'Completed gunwale patch and sanded smooth',     'Resolved', 2, 15.00, 11, 8331,  45),
+('2026-03-23', 'Tested headlamp after switch replacement',      'Resolved', 2,  2.00, 12, 31021, 49),
+('2026-04-01', 'Finished derailleur alignment and road test',   'Resolved', 2, 10.00, 13, 5207,  44),
+('2026-04-04', 'Stove tested after igniter replacement',        'Resolved', 2,  3.00, 14, 74000, 28),
+('2026-01-08', 'Inspected all tent poles after initial report', 'Resolved', 2,  5.00, 1,  74000, 8),
+('2026-02-04', 'Final inspection of harness post-repair',       'Resolved', 2,  4.00, 5,  43504, 25);
 
 -- =============================================================================
--- MAINTENANCE_PART (20 rows)
+-- MAINTENANCE_PART (20 rows) — Log_IDs reference 1-20 assigned above
 -- =============================================================================
-INSERT INTO Maintenance_Part (Maintenance_Part_ID, Quantity_Used, Maintenance_Log_ID, Part_ID) VALUES
-(40651, 1, 2220,  33271),
-(81173, 1, 61068, 82183),
-(86717, 1, 82416, 76880),
-(70329, 1, 74792, 78924),
-(2025,  1, 14104, 55948),
-(88538, 1, 10602, 11745),
-(73692, 1, 28938, 33271),
-(40240, 2, 35760, 87163),
-(87951, 1, 10016, 6209),
-(14577, 1, 33018, 82183),
-(18601, 1, 49434, 33271),
-(35664, 1, 38353, 76880),
-(16129, 1, 21676, 6209),
-(15029, 1, 58433, 82183),
-(98310, 2, 72200, 33271),
-(73512, 1, 93214, 55948),
-(21374, 2, 74792, 87163),
-(36697, 1, 14104, 78924),
-(37930, 1, 61068, 11745),
-(80276, 3, 35760, 87163);
+INSERT INTO Maintenance_Part (Quantity_Used, Maintenance_Log_ID, Part_ID) VALUES
+(1, 1,  33271),
+(1, 2,  82183),
+(1, 3,  76880),
+(1, 4,  78924),
+(1, 5,  55948),
+(1, 6,  11745),
+(1, 8,  33271),
+(2, 10, 87163),
+(1, 13, 6209),
+(1, 14, 82183),
+(1, 15, 33271),
+(1, 16, 76880),
+(1, 17, 6209),
+(1, 18, 82183),
+(2, 19, 33271),
+(1, 20, 55948),
+(2, 4,  87163),
+(1, 5,  78924),
+(1, 2,  11745),
+(3, 10, 87163);
