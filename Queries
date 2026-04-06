@@ -4,7 +4,6 @@
 -- University of Georgia — Terry College of Business | Spring 2026
 -- =============================================================================
 
-USE WES;
 
 -- =============================================================================
 -- Query 1: List all staff members and their phone numbers
