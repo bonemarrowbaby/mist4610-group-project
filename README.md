@@ -9,7 +9,7 @@ University of Georgia — Terry College of Business | Spring 2026
 
 1. [Project Overview](#project-overview)
 2. [Team Members](#team-members)
-3. [Entity-Relationship (ER) Diagram](#entity-relationship-er-diagram)
+3. [Data Model](#entity-relationship-er-diagram)
 4. [Data Model Description](#data-model-description)
 5. [Data Dictionary](#data-dictionary)
 6. [Sample Queries](#sample-queries)
