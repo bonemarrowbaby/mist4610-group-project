@@ -286,185 +286,151 @@ Equipment issues are filed as `Maintenance_Request` records linked to a specific
 
 ## Sample Queries
 
-### Query 1 — List all upcoming confirmed registrations with customer and trip details
+### Query 1 — List all staff members and their phone numbers
 
 ```sql
-SELECT
-    c.Customer_F_Name, c.Customer_L_Name, c.Customer_Type,
-    tt.Trip_Type_Name, st.Trip_Date,
-    r.Registration_Status, r.Registration_Waiver
-FROM Registration r
-JOIN Customer c ON r.Customer_ID = c.Customer_ID
-JOIN Scheduled_Trip st ON r.Scheduled_Trip_ID = st.Scheduled_Trip_ID
-JOIN Trip_Type tt ON st.Trip_Type_ID = tt.Trip_Type_ID
-WHERE st.Trip_Date >= CURDATE() AND r.Registration_Status = 'Confirmed'
-ORDER BY st.Trip_Date, tt.Trip_Type_Name;
+SELECT Staff.Staff_F_Name, Staff.Staff_L_Name, Staff.Staff_Phone
+FROM Staff
+ORDER BY Staff.Staff_L_Name;
 ```
-**Purpose:** Generates trip rosters for upcoming scheduled trips so staff can prepare.
+**Purpose:** Simple single-table query to retrieve basic staff contact info.
 
 ---
 
-### Query 2 — Find all guests and their sponsors
+### Query 2 — List all trip types that are Beginner level and cost less than $50
 
 ```sql
-SELECT
-    CONCAT(gc.Customer_F_Name, ' ', gc.Customer_L_Name) AS GuestName,
-    gc.Customer_Phone AS GuestPhone,
-    CONCAT(sc.Customer_F_Name, ' ', sc.Customer_L_Name) AS SponsorName,
-    sc.Customer_Type AS SponsorType
-FROM Guest g
-JOIN Customer gc ON g.Customer_ID = gc.Customer_ID
-JOIN Customer sc ON g.Sponsor_ID  = sc.Customer_ID
-ORDER BY SponsorName, GuestName;
+SELECT Trip_Type.Trip_Type_Name, Trip_Type.Trip_Type_Diff_Lvl, Trip_Type.Trip_Type_Fee
+FROM Trip_Type
+WHERE Trip_Type.Trip_Type_Diff_Lvl = 'Beginner'
+AND Trip_Type.Trip_Type_Fee < 50
+ORDER BY Trip_Type.Trip_Type_Fee;
 ```
-**Purpose:** Verifies every guest has a valid sponsoring university member.
+**Purpose:** Single-table query with multiple filters to find affordable beginner trips.
 
 ---
 
-### Query 3 — Count registrations per scheduled trip broken down by status
+### Query 3 — List all equipment items that are in Poor condition
 
 ```sql
-SELECT
-    tt.Trip_Type_Name, st.Trip_Date,
-    SUM(CASE WHEN r.Registration_Status = 'Confirmed'  THEN 1 ELSE 0 END) AS Confirmed,
-    SUM(CASE WHEN r.Registration_Status = 'Waitlisted' THEN 1 ELSE 0 END) AS Waitlisted,
-    SUM(CASE WHEN r.Registration_Status = 'Cancelled'  THEN 1 ELSE 0 END) AS Cancelled,
-    COUNT(*) AS Total
-FROM Scheduled_Trip st
-JOIN Trip_Type tt ON st.Trip_Type_ID = tt.Trip_Type_ID
-LEFT JOIN Registration r ON st.Scheduled_Trip_ID = r.Scheduled_Trip_ID
-GROUP BY st.Scheduled_Trip_ID, tt.Trip_Type_Name, st.Trip_Date
-ORDER BY st.Trip_Date;
+SELECT Equipment_Item.Item_ID, Equipment_Type.Equipment_Name, Equipment_Item.Condition_Rating
+FROM Equipment_Item, Equipment_Type
+WHERE Equipment_Item.Equipment_Type_Equipment_Type_ID = Equipment_Type.Equipment_Type_ID
+AND Equipment_Item.Condition_Rating = 'Poor'
+ORDER BY Equipment_Type.Equipment_Name;
 ```
-**Purpose:** Gives management a snapshot of enrollment health across all trips.
+**Purpose:** Two-table query to show poor condition gear with its equipment type name.
 
 ---
 
-### Query 4 — List equipment items currently checked out (not yet returned)
+### Query 4 — List all customers and their registration status for each trip they signed up for
 
 ```sql
-SELECT
-    ei.Item_ID, et.Equipment_Name, ei.Condition_Rating,
-    ra.Rental_Date, raei.Expected_return_date,
-    CONCAT(c.Customer_F_Name, ' ', c.Customer_L_Name) AS RentedBy
-FROM Rental_Agreement_has_Equipment_Item raei
-JOIN Equipment_Item ei ON raei.Equipment_Item_Item_ID = ei.Item_ID
-JOIN Equipment_Type et ON ei.Equipment_Type_Equipment_Type_ID = et.Equipment_Type_ID
-JOIN Rental_Agreement ra ON raei.Rental_Agreement_Agreement_ID = ra.Agreement_ID
-JOIN Customer c ON ra.Customer_ID = c.Customer_ID
-WHERE raei.Actual_return_date IS NULL
-ORDER BY raei.Expected_return_date;
+SELECT Customer.Customer_F_Name, Customer.Customer_L_Name,
+       Customer.Customer_Type, Registration.Registration_Status,
+       Registration.Registration_Waiver
+FROM Customer, Registration
+WHERE Customer.Customer_ID = Registration.Customer_ID
+ORDER BY Customer.Customer_L_Name;
 ```
-**Purpose:** Tracks all gear in the field and highlights overdue items.
+**Purpose:** Two-table query joining customers to their registrations.
 
 ---
 
-### Query 5 — Calculate estimated rental revenue by equipment type and customer category
+### Query 5 — List all scheduled trips with the lead staff member's name
 
 ```sql
-SELECT
-    et.Equipment_Name, c.Customer_Type,
-    COUNT(*) AS TimesRented,
-    SUM(
-        DATEDIFF(raei.Expected_return_date, ra.Rental_Date) *
-        CASE c.Customer_Type
-            WHEN 'Student' THEN et.Student_Rate
-            WHEN 'Guest'   THEN et.Guest_Rate
-            ELSE                et.Faculty_Alumni_Rate
-        END
-    ) AS EstimatedRevenue
-FROM Rental_Agreement_has_Equipment_Item raei
-JOIN Rental_Agreement ra ON raei.Rental_Agreement_Agreement_ID = ra.Agreement_ID
-JOIN Customer c ON ra.Customer_ID = c.Customer_ID
-JOIN Equipment_Item ei ON raei.Equipment_Item_Item_ID = ei.Item_ID
-JOIN Equipment_Type et ON ei.Equipment_Type_Equipment_Type_ID = et.Equipment_Type_ID
-GROUP BY et.Equipment_Name, c.Customer_Type
-ORDER BY EstimatedRevenue DESC;
+SELECT Trip_Type.Trip_Type_Name, Scheduled_Trip.Trip_Date,
+       Staff.Staff_F_Name, Staff.Staff_L_Name
+FROM Scheduled_Trip, Trip_Type, Staff
+WHERE Scheduled_Trip.Trip_Type_ID = Trip_Type.Trip_Type_ID
+AND Scheduled_Trip.Lead_Staff_ID = Staff.Staff_ID
+ORDER BY Scheduled_Trip.Trip_Date;
 ```
-**Purpose:** Identifies highest-revenue gear and most profitable customer segments.
+**Purpose:** Three-table query joining scheduled trips, trip types, and staff.
 
 ---
 
-### Query 6 — Show all trip prerequisite chains
+### Query 6 — List all rental agreements showing the customer and managing staff
 
 ```sql
-SELECT
-    tt.Trip_Type_Name AS TripType, tt.Trip_Type_Diff_Lvl AS Difficulty,
-    pre.Trip_Type_Name AS PrerequisiteName, pre.Trip_Type_Diff_Lvl AS PrerequisiteDifficulty
-FROM Trip_Prerequisite tp
-JOIN Trip_Type tt  ON tp.Trip_Type_ID              = tt.Trip_Type_ID
-JOIN Trip_Type pre ON tp.Prerequisite_Trip_Type_ID = pre.Trip_Type_ID
-ORDER BY tt.Trip_Type_Name;
+SELECT Rental_Agreement.Agreement_ID, Rental_Agreement.Rental_Date,
+       Customer.Customer_F_Name, Customer.Customer_L_Name, Customer.Customer_Type,
+       Staff.Staff_F_Name, Staff.Staff_L_Name
+FROM Rental_Agreement, Customer, Staff
+WHERE Rental_Agreement.Customer_ID = Customer.Customer_ID
+AND Rental_Agreement.Staff_ID = Staff.Staff_ID
+ORDER BY Rental_Agreement.Rental_Date DESC;
 ```
-**Purpose:** Lets staff communicate prerequisite requirements to participants.
+**Purpose:** Three-table query connecting rentals to both customers and staff.
 
 ---
 
-### Query 7 — Find confirmed participants who have not signed their waiver
+### Query 7 — List all guests and the name of their sponsor
 
 ```sql
-SELECT
-    CONCAT(c.Customer_F_Name, ' ', c.Customer_L_Name) AS CustomerName,
-    c.Customer_Phone, tt.Trip_Type_Name, st.Trip_Date, r.Registration_Status
-FROM Registration r
-JOIN Customer c ON r.Customer_ID = c.Customer_ID
-JOIN Scheduled_Trip st ON r.Scheduled_Trip_ID = st.Scheduled_Trip_ID
-JOIN Trip_Type tt ON st.Trip_Type_ID = tt.Trip_Type_ID
-WHERE r.Registration_Waiver = 0
-  AND r.Registration_Status = 'Confirmed'
-  AND st.Trip_Date >= CURDATE()
-ORDER BY st.Trip_Date, c.Customer_L_Name;
+SELECT GuestCustomer.Customer_F_Name, GuestCustomer.Customer_L_Name,
+       SponsorCustomer.Customer_F_Name AS Sponsor_F_Name,
+       SponsorCustomer.Customer_L_Name AS Sponsor_L_Name,
+       SponsorCustomer.Customer_Type AS Sponsor_Type
+FROM Guest, Customer GuestCustomer, Customer SponsorCustomer
+WHERE Guest.Customer_ID = GuestCustomer.Customer_ID
+AND Guest.Sponsor_ID = SponsorCustomer.Customer_ID
+ORDER BY SponsorCustomer.Customer_L_Name;
 ```
-**Purpose:** Produces a contact list of confirmed participants still needing waivers.
+**Purpose:** Self-join on Customer table to match guests with their sponsors.
 
 ---
 
-### Query 8 — Show each staff member's trip leadership activity
+### Query 8 — List all confirmed registrations where the waiver has not been signed
 
 ```sql
-SELECT
-    CONCAT(s.Staff_F_Name, ' ', s.Staff_L_Name) AS StaffName,
-    SUM(CASE WHEN st.Lead_Staff_ID      = s.Staff_ID THEN 1 ELSE 0 END) AS TripsLed,
-    SUM(CASE WHEN st.Assistant_Staff_ID = s.Staff_ID THEN 1 ELSE 0 END) AS TripsAssisted
-FROM Staff s
-JOIN Scheduled_Trip st ON s.Staff_ID = st.Lead_Staff_ID OR s.Staff_ID = st.Assistant_Staff_ID
-GROUP BY s.Staff_ID, StaffName
-ORDER BY TripsLed DESC;
+SELECT Customer.Customer_F_Name, Customer.Customer_L_Name,
+       Customer.Customer_Phone, Trip_Type.Trip_Type_Name,
+       Scheduled_Trip.Trip_Date, Registration.Registration_Status
+FROM Registration, Customer, Scheduled_Trip, Trip_Type
+WHERE Registration.Customer_ID = Customer.Customer_ID
+AND Registration.Scheduled_Trip_ID = Scheduled_Trip.Scheduled_Trip_ID
+AND Scheduled_Trip.Trip_Type_ID = Trip_Type.Trip_Type_ID
+AND Registration.Registration_Waiver = 0
+AND Registration.Registration_Status = 'Confirmed'
+ORDER BY Scheduled_Trip.Trip_Date;
 ```
-**Purpose:** Helps management evaluate staff workload and leadership experience.
+**Purpose:** Four-table query with multiple WHERE filters to find confirmed participants still needing waivers.
 
 ---
 
-### Query 9 — List open maintenance requests prioritized by urgency
+### Query 9 — List all open maintenance requests with equipment and staff details
 
 ```sql
-SELECT
-    mr.Request_ID, mr.Request_Date, mr.Priority, mr.Status,
-    et.Equipment_Name, ei.Condition_Rating, mr.Issue_Description,
-    CONCAT(s.Staff_F_Name, ' ', s.Staff_L_Name) AS AssignedStaff
-FROM Maintenance_Request mr
-JOIN Equipment_Item ei ON mr.Item_ID = ei.Item_ID
-JOIN Equipment_Type et ON ei.Equipment_Type_Equipment_Type_ID = et.Equipment_Type_ID
-JOIN Staff s ON mr.Staff_ID = s.Staff_ID
-WHERE mr.Status != 'Closed'
-ORDER BY CASE mr.Priority WHEN 'High' THEN 1 WHEN 'Medium' THEN 2 ELSE 3 END, mr.Request_Date;
+SELECT Maintenance_Request.Request_ID, Maintenance_Request.Request_Date,
+       Equipment_Type.Equipment_Name, Equipment_Item.Condition_Rating,
+       Maintenance_Request.Issue_Description, Maintenance_Request.Priority,
+       Maintenance_Request.Status, Staff.Staff_F_Name, Staff.Staff_L_Name
+FROM Maintenance_Request, Equipment_Item, Equipment_Type, Staff
+WHERE Maintenance_Request.Item_ID = Equipment_Item.Item_ID
+AND Equipment_Item.Equipment_Type_Equipment_Type_ID = Equipment_Type.Equipment_Type_ID
+AND Maintenance_Request.Staff_ID = Staff.Staff_ID
+AND Maintenance_Request.Status != 'Closed'
+ORDER BY Maintenance_Request.Priority, Maintenance_Request.Request_Date;
 ```
-**Purpose:** Gives the maintenance team a prioritized work queue.
+**Purpose:** Four-table query filtering by status to give the maintenance team a prioritized work queue.
 
 ---
 
-### Query 10 — Find parts running low in stock with supplier contact details
+### Query 10 — Show total rentals per equipment type and customer type rented more than once
 
 ```sql
-SELECT
-    p.Part_Name, p.Part_Stock_Quantity, p.Part_Unit_Cost,
-    sup.Supplier_Name,
-    CONCAT(sup.Supplier_Contact_F_name, ' ', sup.Supplier_Contact_L_name) AS SupplierContact,
-    sup.Supplier_Phone, sup.Supplier_Email
-FROM Part p
-JOIN Supplier sup ON p.Supplier_ID = sup.Supplier_ID
-WHERE p.Part_Stock_Quantity < 10
-ORDER BY p.Part_Stock_Quantity ASC;
+SELECT Equipment_Type.Equipment_Name, Customer.Customer_Type,
+       COUNT(*) AS TimesRented
+FROM Rental_Agreement_has_Equipment_Item, Rental_Agreement, Customer,
+     Equipment_Item, Equipment_Type
+WHERE Rental_Agreement_has_Equipment_Item.Rental_Agreement_Agreement_ID = Rental_Agreement.Agreement_ID
+AND Rental_Agreement.Customer_ID = Customer.Customer_ID
+AND Rental_Agreement_has_Equipment_Item.Equipment_Item_Item_ID = Equipment_Item.Item_ID
+AND Equipment_Item.Equipment_Type_Equipment_Type_ID = Equipment_Type.Equipment_Type_ID
+GROUP BY Equipment_Type.Equipment_Name, Customer.Customer_Type
+HAVING COUNT(*) > 1
+ORDER BY TimesRented DESC;
 ```
-**Purpose:** Flags low-stock parts so staff can reorder before running out.
-
+**Purpose:** Five-table query using GROUP BY and HAVING to show the most frequently rented equipment by customer type.
