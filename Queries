@@ -6,134 +6,124 @@
 
 
 -- =============================================================================
--- Query 1: List all staff members and their phone numbers
--- Purpose: Simple single-table query to retrieve basic staff contact info.
+-- Query 1: Query 1 lists the trip type ID, trip name, and trip fee for all trips that cost more than $75 and last fewer 
+--          than 3 days. The results are also ordered by trip fee in ascending order.
+-- Purpose: Query 1 allows WES managers to identify which trip types are short in duration but generate higher fees, 
+--          making them attractive premium offerings. These trips are likely appealing to busy students, faculty, or 
+--          guests with limited time, so WES can prioritize promoting and scheduling these trips more frequently to 
+--          maximize revenue.
 -- =============================================================================
-SELECT Staff.Staff_F_Name, Staff.Staff_L_Name, Staff.Staff_Phone
-FROM Staff
-ORDER BY Staff.Staff_L_Name;
+Select Trip_Type.Trip_Type_ID,Trip_Type.Trip_Type_Name,Trip_Type.Trip_Type_Fee 
+from Trip_Type where Trip_Type_Fee > 75 and Trip_Type_Length_days <3 order by Trip_Type_Fee asc;
 
 
 -- =============================================================================
--- Query 2: List all trip types that are Beginner level and cost less than $50
--- Purpose: Single-table query with multiple filters to find affordable beginner trips.
+-- Query 2: Query 2 lists the request ID, item ID, and status for all maintenance requests whose status 
+--          contains the word “Progress.” The results are also ordered by request ID.
+-- Purpose: Query 2 allows WES managers to see which equipment items are currently undergoing maintenance 
+--          and are unavailable for rental. This helps ensure that enough equipment remains available for 
+--          upcoming rentals and trips, while also allowing managers to monitor repair progress and avoid operational delays.
 -- =============================================================================
-SELECT Trip_Type.Trip_Type_Name, Trip_Type.Trip_Type_Diff_Lvl, Trip_Type.Trip_Type_Fee
-FROM Trip_Type
-WHERE Trip_Type.Trip_Type_Diff_Lvl = 'Beginner'
-AND Trip_Type.Trip_Type_Fee < 50
-ORDER BY Trip_Type.Trip_Type_Fee;
+Select Maintenance_Request.Request_ID,Maintenance_Request.Item_ID,Maintenance_Request.Status 
+from Maintenance_Request where status REGEXP "Progress" order by Request_ID;
 
 
 -- =============================================================================
--- Query 3: List all equipment items that are in Poor condition
--- Purpose: Two-table query to show poor condition gear with its equipment type name.
+-- Query 3: Query 3 lists the equipment type ID, equipment name, and guest rental rate for all equipment 
+--          types with a guest rate greater than or equal to $5. The results are also ordered by guest 
+--          rate in ascending order.
+-- Purpose: Query 3 allows WES managers to identify which equipment types have higher rental rates for 
+--          guests, who are typically charged the most. These items likely generate greater revenue, so 
+--          WES can prioritize maintaining and stocking these high-value items to increase profitability.
 -- =============================================================================
-SELECT Equipment_Item.Item_ID, Equipment_Type.Equipment_Name, Equipment_Item.Condition_Rating
-FROM Equipment_Item, Equipment_Type
-WHERE Equipment_Item.Equipment_Type_Equipment_Type_ID = Equipment_Type.Equipment_Type_ID
-AND Equipment_Item.Condition_Rating = 'Poor'
-ORDER BY Equipment_Type.Equipment_Name;
+Select Equipment_Type_ID,Equipment_Name,Guest_Rate from Equipment_Type
+where Guest_Rate>=5 order by Guest_Rate asc;
 
 
 -- =============================================================================
--- Query 4: List all customers and their registration status for each trip they signed up for
--- Purpose: Two-table query joining customers to their registrations.
+-- Query 4: Query 4 lists the item ID, condition rating, and equipment name for all equipment items that are 
+--          in poor condition. This is done by joining the equipment item and equipment type tables.
+-- Purpose: Query 4 allows WES managers to quickly identify equipment items that are in poor condition and
+--          may need repair or replacement. Since unsafe or damaged equipment can negatively impact trip 
+--          experiences and safety, this query helps managers prioritize maintenance and ensure all gear meets 
+--          quality standards.
 -- =============================================================================
-SELECT Customer.Customer_F_Name, Customer.Customer_L_Name,
-       Customer.Customer_Type, Registration.Registration_Status,
-       Registration.Registration_Waiver
-FROM Customer, Registration
-WHERE Customer.Customer_ID = Registration.Customer_ID
-ORDER BY Customer.Customer_L_Name;
+Select Equipment_Item.Item_ID,Equipment_Item.Condition_Rating, Equipment_Type.Equipment_Name 
+from Equipment_Item,Equipment_Type where Equipment_Item.Equipment_Type_Equipment_Type_ID=Equipment_Type.Equipment_Type_ID 
+and Equipment_Item.Condition_Rating="Poor";
 
 
 -- =============================================================================
--- Query 5: List all scheduled trips with the lead staff member's name
--- Purpose: Three-table query joining scheduled trips, trip types, and staff.
+-- Query 5: Query 5 lists the percentage of customers who are students, faculty/staff, alumni, and guests out of 
+--          the total number of customers. These percentages are calculated using subqueries.
+-- Purpose: Query 5 allows WES managers to understand the distribution of customers across different groups such 
+--          as students, faculty/staff, alumni, and guests. This helps WES tailor pricing, marketing strategies, 
+--          and trip offerings toward their largest customer segments to better meet demand.
 -- =============================================================================
-SELECT Trip_Type.Trip_Type_Name, Scheduled_Trip.Trip_Date,
-       Staff.Staff_F_Name, Staff.Staff_L_Name
-FROM Scheduled_Trip, Trip_Type, Staff
-WHERE Scheduled_Trip.Trip_Type_ID = Trip_Type.Trip_Type_ID
-AND Scheduled_Trip.Lead_Staff_ID = Staff.Staff_ID
-ORDER BY Scheduled_Trip.Trip_Date;
+Select (select count(*) from Customer where Customer_Type="student")/count(*)*100 as "Customer % that are students",
+(Select count(*) from Customer where Customer_Type Regexp"faculty")/count(*)*100 as "Customer % that are Faculty/Staff",
+(Select count(*) from Customer where Customer_Type ="alumni")/count(*)*100 as "Customer % that are Alumni",
+(Select count(*) from Customer where Customer_Type ="guest")/count(*)*100 as "Customer % that are Guests" from Customer;
 
 
 -- =============================================================================
--- Query 6: List all rental agreements showing the customer name and managing staff name
--- Purpose: Three-table query connecting rentals to both customers and staff.
+-- Query 6: Query 6 lists the item ID and equipment name for all equipment items that do not appear in any maintenance 
+--          request. This is done using a subquery to exclude items with maintenance records.
+-- Purpose: Query 6 allows WES managers to identify equipment that has never required maintenance, which may 
+--          indicate either high reliability or a lack of inspection. This helps managers ensure that all 
+--          equipment is being properly monitored and maintained to prevent unexpected failures during rentals or trips.
 -- =============================================================================
-SELECT Rental_Agreement.Agreement_ID, Rental_Agreement.Rental_Date,
-       Customer.Customer_F_Name, Customer.Customer_L_Name, Customer.Customer_Type,
-       Staff.Staff_F_Name, Staff.Staff_L_Name
-FROM Rental_Agreement, Customer, Staff
-WHERE Rental_Agreement.Customer_ID = Customer.Customer_ID
-AND Rental_Agreement.Staff_ID = Staff.Staff_ID
-ORDER BY Rental_Agreement.Rental_Date DESC;
+Select Equipment_Item.Item_ID,Equipment_Type.Equipment_Name from Equipment_Item, Equipment_Type
+ where Equipment_Item.Equipment_Type_Equipment_Type_ID=Equipment_Type.Equipment_Type_ID and Item_ID
+NOT IN (Select Item_ID from Maintenance_Request);
 
 
 -- =============================================================================
--- Query 7: List all guests and the name of their sponsor
--- Purpose: Self-join on Customer table to match guests with their sponsors.
+-- Query 7: Query 7 lists each customer ID along with their total number of rentals and assigns a rental level of 
+--          High, Medium, or Low based on that total. The results are grouped by customer ID and ordered in ascending order.
+-- Purpose: Query 7 allows WES managers to categorize customers based on how frequently they rent equipment, 
+--          identifying high, medium, and low activity users. This helps managers target frequent renters with 
+--          loyalty incentives while also encouraging less active customers to increase participation.
 -- =============================================================================
-SELECT GuestCustomer.Customer_F_Name, GuestCustomer.Customer_L_Name,
-       SponsorCustomer.Customer_F_Name AS Sponsor_F_Name,
-       SponsorCustomer.Customer_L_Name AS Sponsor_L_Name,
-       SponsorCustomer.Customer_Type AS Sponsor_Type
-FROM Guest, Customer GuestCustomer, Customer SponsorCustomer
-WHERE Guest.Customer_ID = GuestCustomer.Customer_ID
-AND Guest.Sponsor_ID = SponsorCustomer.Customer_ID
-ORDER BY SponsorCustomer.Customer_L_Name;
+Select Rental_Agreement.Customer_ID, count(*) as "Total Rentals",
+case when count(*) >=5 THEN 'High' when count(*) >=2 then "Medium"
+else "Low" end as "Rental Level" from Rental_Agreement group by Customer_ID order by Customer_ID asc;
 
 
 -- =============================================================================
--- Query 8: List all confirmed registrations where the waiver has not been signed,
---          along with the trip name and date
--- Purpose: Four-table query with multiple WHERE filters across joined tables.
+-- Query 8: Query 8 lists the staff ID of employees along with the number of maintenance tasks they have performed, 
+--          but only includes those who have completed exactly three tasks. The results are grouped by staff ID.
+-- Purpose: Query 8 allows WES managers to identify staff members who have completed exactly three maintenance 
+--          tasks, providing insight into workload distribution. This helps ensure maintenance responsibilities 
+--          are balanced and allows managers to adjust staffing if certain employees are under- or over-utilized.
 -- =============================================================================
-SELECT Customer.Customer_F_Name, Customer.Customer_L_Name,
-       Customer.Customer_Phone, Trip_Type.Trip_Type_Name,
-       Scheduled_Trip.Trip_Date, Registration.Registration_Status
-FROM Registration, Customer, Scheduled_Trip, Trip_Type
-WHERE Registration.Customer_ID = Customer.Customer_ID
-AND Registration.Scheduled_Trip_ID = Scheduled_Trip.Scheduled_Trip_ID
-AND Scheduled_Trip.Trip_Type_ID = Trip_Type.Trip_Type_ID
-AND Registration.Registration_Waiver = 0
-AND Registration.Registration_Status = 'Confirmed'
-ORDER BY Scheduled_Trip.Trip_Date;
+Select Maintenance_Log.Performed_by_Staff_ID, count(*) as "Num Maintencance"
+from Maintenance_Log group by Performed_by_Staff_ID having count(*) =3;
 
 
 -- =============================================================================
--- Query 9: List all open maintenance requests showing the equipment name,
---          condition, issue, and the staff member assigned
--- Purpose: Four-table query filtering by status across multiple joined tables.
+-- Query 9: Query 9 lists each scheduled trip ID along with the full names of the lead and assistant staff members
+--          assigned to the trip. The results are also ordered by scheduled trip ID.
+-- Purpose: Query 9 allows WES managers to clearly see which staff members are assigned as lead and assistant 
+--          leaders for each scheduled trip. This ensures that every trip is properly staffed and helps managers 
+--          coordinate scheduling, accountability, and communication among staff.
 -- =============================================================================
-SELECT Maintenance_Request.Request_ID, Maintenance_Request.Request_Date,
-       Equipment_Type.Equipment_Name, Equipment_Item.Condition_Rating,
-       Maintenance_Request.Issue_Description, Maintenance_Request.Priority,
-       Maintenance_Request.Status, Staff.Staff_F_Name, Staff.Staff_L_Name
-FROM Maintenance_Request, Equipment_Item, Equipment_Type, Staff
-WHERE Maintenance_Request.Item_ID = Equipment_Item.Item_ID
-AND Equipment_Item.Equipment_Type_Equipment_Type_ID = Equipment_Type.Equipment_Type_ID
-AND Maintenance_Request.Staff_ID = Staff.Staff_ID
-AND Maintenance_Request.Status != 'Closed'
-ORDER BY Maintenance_Request.Priority, Maintenance_Request.Request_Date;
+Select Scheduled_Trip.Scheduled_Trip_ID, concat(L.Staff_F_Name," ", L.Staff_L_Name) as "Lead Staff Name",
+concat(A.Staff_F_Name," ", A.Staff_L_Name) as "Assistant Staff Name"
+ from Scheduled_Trip, Staff L, Staff A where Scheduled_Trip.Lead_Staff_ID=L.Staff_ID 
+ and Scheduled_Trip.Assistant_Staff_ID=A.Staff_ID order by Scheduled_Trip_ID;
 
 
 -- =============================================================================
--- Query 10: Show the total number of rentals per equipment type and customer type,
---           only for combinations rented more than once
--- Purpose: Five-table query using GROUP BY and HAVING to filter aggregated results.
+-- Query 10: Query 10 lists each equipment type along with the average cost of maintenance and categorizes each as High Cost, 
+--           Medium Cost, or Low Cost. The results are grouped by equipment name.
+-- Purpose: Query 10 allows WES managers to evaluate which types of equipment have higher average maintenance costs and 
+--          categorize them accordingly. This helps managers make informed decisions about whether to continue maintaining 
+--          certain equipment, adjust rental pricing, or invest in replacements to reduce long-term costs.
 -- =============================================================================
-SELECT Equipment_Type.Equipment_Name, Customer.Customer_Type,
-       COUNT(*) AS TimesRented
-FROM Rental_Agreement_has_Equipment_Item, Rental_Agreement, Customer,
-     Equipment_Item, Equipment_Type
-WHERE Rental_Agreement_has_Equipment_Item.Rental_Agreement_Agreement_ID = Rental_Agreement.Agreement_ID
-AND Rental_Agreement.Customer_ID = Customer.Customer_ID
-AND Rental_Agreement_has_Equipment_Item.Equipment_Item_Item_ID = Equipment_Item.Item_ID
-AND Equipment_Item.Equipment_Type_Equipment_Type_ID = Equipment_Type.Equipment_Type_ID
-GROUP BY Equipment_Type.Equipment_Name, Customer.Customer_Type
-HAVING COUNT(*) > 1
-ORDER BY TimesRented DESC;
+Select Equipment_Type.Equipment_Name, avg(Maintenance_Log.Cost_of_Maintenance) as "AVG Cost",
+Case when avg(Maintenance_Log.Cost_of_Maintenance)>30 then "High Cost"
+when avg(Maintenance_Log.Cost_of_Maintenance)>20 then "Medium Cost"
+else "Low Cost" end as "Cost Category"
+from Equipment_Type,Equipment_Item,Maintenance_Log where Equipment_Type.Equipment_Type_ID=Equipment_Item.Equipment_Type_Equipment_Type_ID 
+and Equipment_Item.Item_ID=Maintenance_Log.Item_ID group by Equipment_Type.Equipment_Name;
