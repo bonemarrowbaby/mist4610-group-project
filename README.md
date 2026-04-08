@@ -300,7 +300,7 @@ Equipment issues are filed as `Maintenance_Request` records linked to a specific
 ### Query 1 - 
 Query 1 lists the trip type ID, trip name, and trip fee for all trips that cost more than $75 and than 3 days. The results are also ordered by trip fee in ascending order.
 
-![Query1](images/query1.png)
+![Query1](IMAGES/query1.png)
 
 Query 1 allows WES managers to identify which trip types are short in duration but generate higher fees, making them attractive premium offerings. These trips are likely appealing to busy students, faculty, or guests with limited time, so WES can prioritize promoting and scheduling these trips more frequently to maximize revenue.
 
@@ -309,7 +309,7 @@ Query 1 allows WES managers to identify which trip types are short in duration b
 ### Query 2 
 Query 2 lists the request ID, item ID, and status for all maintenance requests whose status contains the word “Progress.” The results are also ordered by request ID.
 
-![Query2](images/query2.png)
+![Query2](IMAGES/query2.png)
 
 Query 2 allows WES managers to see which equipment items are currently undergoing maintenance and are unavailable for rental. This helps ensure that enough equipment remains available for upcoming rentals and trips, while also allowing managers to monitor repair progress and avoid operational delays.
 
@@ -318,7 +318,7 @@ Query 2 allows WES managers to see which equipment items are currently undergoin
 ### Query 3 
  Query 3 lists the equipment type ID, equipment name, and guest rental rate for all equipment types with a guest rate greater than or equal to $5. The results are also ordered by guest rate in ascending order.
 
-![Query3](images/query3.png)
+![Query3](IMAGES/query3.png)
 
 Query 3 allows WES managers to identify which equipment types have higher rental rates for guests, who are typically charged the most. These items likely generate greater revenue, so WES can prioritize maintaining and stocking these high-value items to increase profitability.
 
@@ -327,7 +327,7 @@ Query 3 allows WES managers to identify which equipment types have higher rental
 ### Query 4 
 Query 4 lists the item ID, condition rating, and equipment name for all equipment items that are in poor condition. This is done by joining the equipment item and equipment type tables.
 
-![Query4](images/query4.png)
+![Query4](IMAGES/query4.png)
 
 Query 4 allows WES managers to quickly identify equipment items that are in poor condition and may need repair or replacement. Since unsafe or damaged equipment can negatively impact trip experiences and safety, this query helps managers prioritize maintenance and ensure all gear meets quality standards.
 
@@ -336,7 +336,7 @@ Query 4 allows WES managers to quickly identify equipment items that are in poor
 ### Query 5 
 Query 5 lists the percentage of customers who are students, faculty/staff, alumni, and guests out of the total number of customers. These percentages are calculated using subqueries.
 
-![Query5](images/query5.png)
+![Query5](IMAGES/query5.png)
 
 Query 5 allows WES managers to understand the distribution of customers across different groups such as students, faculty/staff, alumni, and guests. This helps WES tailor pricing, marketing strategies, and trip offerings toward their largest customer segments to better meet demand.
 
@@ -345,7 +345,7 @@ Query 5 allows WES managers to understand the distribution of customers across d
 ### Query 6 
 Query 6 lists the item ID and equipment name for all equipment items that do not appear in any maintenance request. This is done using a subquery to exclude items with maintenance records.
 
-![Query6](images/query6.png)
+![Query6](IMAGES/query6.png)
 
 Query 6 allows WES managers to identify equipment that has never required maintenance, which may indicate either high reliability or a lack of inspection. This helps managers ensure that all equipment is being properly monitored and maintained to prevent unexpected failures during rentals or trips.
 
@@ -354,7 +354,7 @@ Query 6 allows WES managers to identify equipment that has never required mainte
 ### Query 7 
 Query 7 lists each customer ID along with their total number of rentals and assigns a rental level of High, Medium, or Low based on that total. The results are grouped by customer ID and ordered in ascending order.
 
-![Query7](images/query7.png)
+![Query7](IMAGES/query7.png)
 
 Query 7 allows WES managers to categorize customers based on how frequently they rent equipment, identifying high, medium, and low activity users. This helps managers target frequent renters with loyalty incentives while also encouraging less active customers to increase participation.
 
@@ -363,7 +363,7 @@ Query 7 allows WES managers to categorize customers based on how frequently they
 ### Query 8 
 Query 8 lists the staff ID of employees along with the number of maintenance tasks they have performed, but only includes those who have completed exactly three tasks. The results are grouped by staff ID.
 
-![Query8](images/query8.png)
+![Query8](IMAGES/query8.png)
 
 Query 8 allows WES managers to identify staff members who have completed exactly three maintenance tasks, providing insight into workload distribution. This helps ensure maintenance responsibilities are balanced and allows managers to adjust staffing if certain employees are under- or over-utilized.
 
@@ -372,7 +372,7 @@ Query 8 allows WES managers to identify staff members who have completed exactly
 ### Query 9 
 Query 9 lists each scheduled trip ID along with the full names of the lead and assistant staff members assigned to the trip. The results are also ordered by scheduled trip ID.
 
-![Query9](images/query9.png)
+![Query9](IMAGES/query9.png)
 
 Query 9 allows WES managers to clearly see which staff members are assigned as lead and assistant leaders for each scheduled trip. This ensures that every trip is properly staffed and helps managers coordinate scheduling, accountability, and communication among staff.
 
@@ -382,6 +382,6 @@ Query 9 allows WES managers to clearly see which staff members are assigned as l
 ### Query 10 
 Query 10 lists each equipment type along with the average cost of maintenance and categorizes each as High Cost,  Medium Cost, or Low Cost. The results are grouped by equipment name.
 
-![Query10](images/query10.png)
+![Query10](IMAGES/query10.png)
 
 Query 10 allows WES managers to evaluate which types of equipment have higher average maintenance costs and categorize them accordingly. This helps managers make informed decisions about whether to continue maintaining certain equipment, adjust rental pricing, or invest in replacements to reduce long-term costs.
