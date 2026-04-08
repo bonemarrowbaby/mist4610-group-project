@@ -284,7 +284,19 @@ Equipment issues are filed as `Maintenance_Request` records linked to a specific
 
 ---
 
-## Sample Queries
+## Queries
+| Feature                     | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|----------------------------|----|----|----|----|----|----|----|----|----|-----|
+| Multiple Table Join        |    |    |    | X  |    | X  |    |    | X  | X   |
+| Subquery                   |    |    |    |    | X  | X  |    |    |    |     |
+| GROUP BY                   |    |    |    |    |    |    | X  | X  |    | X   |
+| GROUP BY with HAVING       |    |    |    |    |    |    |    | X  |    |     |
+| Multi-condition WHERE      | X  |    |    | X  |    | X  |    |    |    |     |
+| Built-in Functions         |    |    |    |    | X  |    | X  | X  | X  | X   |
+| REGEXP                     |    | X  |    |    | X  |    |    |    |    |     |
+| NOT EXISTS / NOT IN        |    |    |    |    |    | X  |    |    |    |     |
+| ORDER BY                   | X  | X  | X  |    |    |    | X  |    | X  |     |
+
 
 ### Query 1 — List all staff members and their phone numbers
 
