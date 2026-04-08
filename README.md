@@ -363,7 +363,7 @@ Query 7 allows WES managers to categorize customers based on how frequently they
 ### Query 8 
 Query 8 lists the staff ID of employees along with the number of maintenance tasks they have performed, but only includes those who have completed exactly three tasks. The results are grouped by staff ID.
 
-![Query8](IMAGES/query8.png)
+![query8](IMAGES.query8.png)
 
 Query 8 allows WES managers to identify staff members who have completed exactly three maintenance tasks, providing insight into workload distribution. This helps ensure maintenance responsibilities are balanced and allows managers to adjust staffing if certain employees are under- or over-utilized.
 
