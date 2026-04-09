@@ -130,7 +130,7 @@ Query 2 allows WES managers to see which equipment items are currently undergoin
 ### Query 3 
  Query 3 lists the equipment type ID, equipment name, and guest rental rate for all equipment types with a guest rate greater than or equal to $5. The results are also ordered by guest rate in ascending order.
 
-![Query3](query3.png)
+<img width="821" height="402" alt="Screenshot 2026-04-09 at 12 31 28 PM" src="https://github.com/user-attachments/assets/d7a594cd-710e-4300-b233-72d268e16551" />
 
 Query 3 allows WES managers to identify which equipment types have higher rental rates for guests, who are typically charged the most. These items likely generate greater revenue, so WES can prioritize maintaining and stocking these high-value items to increase profitability.
 
