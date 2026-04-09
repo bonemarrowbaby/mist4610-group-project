@@ -197,3 +197,25 @@ Query 10 lists each equipment type along with the average cost of maintenance an
 ![Query10](query10.png)
 
 Query 10 allows WES managers to evaluate which types of equipment have higher average maintenance costs and categorize them accordingly. This helps managers make informed decisions about whether to continue maintaining certain equipment, adjust rental pricing, or invest in replacements to reduce long-term costs.
+
+
+---
+
+## Database Information
+
+**Database Name:** `mb_B2`
+
+All 10 queries are bookmarked as stored procedures following the `GP_Qx` format.
+
+| Query | Procedure Name | Call Format |
+|-------|---------------|-------------|
+| Query 1  | `GP_Q1`  | `CALL GP_Q1();`  |
+| Query 2  | `GP_Q2`  | `CALL GP_Q2();`  |
+| Query 3  | `GP_Q3`  | `CALL GP_Q3();`  |
+| Query 4  | `GP_Q4`  | `CALL GP_Q4();`  |
+| Query 5  | `GP_Q5`  | `CALL GP_Q5();`  |
+| Query 6  | `GP_Q6`  | `CALL GP_Q6();`  |
+| Query 7  | `GP_Q7`  | `CALL GP_Q7();`  |
+| Query 8  | `GP_Q8`  | `CALL GP_Q8();`  |
+| Query 9  | `GP_Q9`  | `CALL GP_Q9();`  |
+| Query 10 | `GP_Q10` | `CALL GP_Q10();` |
