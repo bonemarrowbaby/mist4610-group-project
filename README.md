@@ -75,211 +75,23 @@ Equipment issues are filed as `Maintenance_Request` records linked to a specific
 
 ## Data Dictionary
 
-### Table: `Customer`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Customer_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each customer |
-| `Customer_F_Name` | VARCHAR(15) | NOT NULL | Customer's first name |
-| `Customer_L_Name` | VARCHAR(15) | NOT NULL | Customer's last name |
-| `Customer_Phone` | VARCHAR(12) | | Customer's phone number |
-| `Customer_DOB` | DATE | | Customer's date of birth |
-| `Customer_Type` | VARCHAR(45) | NOT NULL | Student, Faculty/Staff, Alumni, or Guest |
-
----
-
-### Table: `Member`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Member_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the member record |
-| `University_Role` | VARCHAR(90) | | Role at the university (e.g., Professor, Graduate Student) |
-| `Customer_ID` | INT | FK → Customer(Customer_ID) | Links this member to a customer |
-
----
-
-### Table: `Guest`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Guest_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the guest record |
-| `Customer_ID` | INT | FK → Customer(Customer_ID) | Links this guest to a customer |
-| `Sponsor_ID` | INT | FK → Customer(Customer_ID) | The university member sponsoring this guest |
-
----
-
-### Table: `Staff`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Staff_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each staff member |
-| `Staff_F_Name` | VARCHAR(15) | NOT NULL | Staff member's first name |
-| `Staff_L_Name` | VARCHAR(15) | NOT NULL | Staff member's last name |
-| `Staff_Phone` | VARCHAR(12) | | Staff member's phone number |
-
----
-
-### Table: `Trip_Type`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Trip_Type_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the trip type |
-| `Trip_Type_Name` | VARCHAR(45) | NOT NULL | Descriptive name (e.g., "Beginner Kayaking") |
-| `Trip_Type_Diff_Lvl` | VARCHAR(15) | NOT NULL | Difficulty level |
-| `Trip_Type_Fee` | DECIMAL(5,2) | NOT NULL | Participation fee in dollars |
-| `Trip_Type_Length_days` | INT | NOT NULL | Duration of the trip in days |
-
----
-
-### Table: `Trip_Prerequisite`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Trip_Type_ID` | INT | PK, FK → Trip_Type(Trip_Type_ID) | The trip that has a requirement |
-| `Prerequisite_Trip_Type_ID` | INT | PK, FK → Trip_Type(Trip_Type_ID) | The trip that must be completed first |
-
-> Composite primary key. Self-referencing many-to-many bridge on `Trip_Type`.
-
----
-
-### Table: `Scheduled_Trip`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Scheduled_Trip_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each scheduled occurrence |
-| `Trip_Date` | DATE | NOT NULL | Date the trip is scheduled |
-| `Lead_Staff_ID` | INT | FK → Staff(Staff_ID) | Staff member serving as lead |
-| `Assistant_Staff_ID` | INT | FK → Staff(Staff_ID) | Staff member serving as assistant leader |
-| `Trip_Type_ID` | INT | FK → Trip_Type(Trip_Type_ID) | The trip type being offered |
-
-> Unique constraint on (`Trip_Type_ID`, `Trip_Date`) — a trip type cannot be scheduled more than once per date.
-
----
-
-### Table: `Registration`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Registration_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each registration |
-| `Customer_ID` | INT | FK → Customer(Customer_ID) | The registering customer |
-| `Scheduled_Trip_ID` | INT | FK → Scheduled_Trip(Scheduled_Trip_ID) | The scheduled trip being registered for |
-| `Registration_Waiver` | TINYINT(1) | NOT NULL, DEFAULT 0 | 1 = waiver signed, 0 = not signed |
-| `Registration_Status` | VARCHAR(10) | NOT NULL | Confirmed, Waitlisted, or Cancelled |
-
-> Unique constraint on (`Customer_ID`, `Scheduled_Trip_ID`) — one registration per customer per trip.
-
----
-
-### Table: `Equipment_Type`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Equipment_Type_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the equipment type |
-| `Equipment_Name` | VARCHAR(45) | NOT NULL | Descriptive name (e.g., "Osprey Aether 70L Backpack") |
-| `Student_Rate` | DECIMAL(5,2) | NOT NULL | Daily rental rate for students |
-| `Faculty_Alumni_Rate` | DECIMAL(5,2) | NOT NULL | Daily rental rate for faculty, staff, and alumni |
-| `Guest_Rate` | DECIMAL(5,2) | NOT NULL | Daily rental rate for guests |
-
----
-
-### Table: `Equipment_Item`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Item_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each physical item |
-| `Condition_Rating` | VARCHAR(4) | NOT NULL | Good, Fair, or Poor |
-| `Equipment_Type_Equipment_Type_ID` | INT | FK → Equipment_Type(Equipment_Type_ID) | The type this item belongs to |
-
----
-
-### Table: `Rental_Agreement`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Agreement_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each rental agreement |
-| `Rental_Date` | DATE | NOT NULL | Date the rental agreement was created |
-| `Customer_ID` | INT | FK → Customer(Customer_ID) | Customer who is renting |
-| `Staff_ID` | INT | FK → Staff(Staff_ID) | Staff member managing the agreement |
-
----
-
-### Table: `Rental_Agreement_has_Equipment_Item`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Rental_Agreement_Agreement_ID` | INT | PK, FK → Rental_Agreement(Agreement_ID) | The parent rental agreement |
-| `Equipment_Item_Item_ID` | INT | PK, FK → Equipment_Item(Item_ID) | The specific physical item rented |
-| `Expected_return_date` | VARCHAR(45) | | When the item is expected to be returned |
-| `Actual_return_date` | VARCHAR(45) | | When the item was actually returned (NULL if still out) |
-
-> Composite primary key on (`Rental_Agreement_Agreement_ID`, `Equipment_Item_Item_ID`).
-
----
-
-### Table: `Maintenance_Request`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Request_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the maintenance request |
-| `Request_Date` | DATE | NOT NULL | Date the request was filed |
-| `Issue_Description` | VARCHAR(90) | | Description of the equipment problem |
-| `Priority` | VARCHAR(15) | | High, Medium, or Low |
-| `Status` | VARCHAR(20) | | Open, In Progress, or Closed |
-| `Item_ID` | INT | FK → Equipment_Item(Item_ID) | The item requiring maintenance |
-| `Staff_ID` | INT | FK → Staff(Staff_ID) | Staff member assigned to the request |
-
----
-
-### Table: `Maintenance_Log`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Log_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the log entry |
-| `Maintenance_Date` | DATE | NOT NULL | Date maintenance was performed |
-| `Work_Done_Desc` | VARCHAR(90) | | Description of work performed |
-| `Outcome` | VARCHAR(15) | | Resolved, Ongoing, etc. |
-| `Maintenance_Count` | INT | | Number of maintenance events for this item |
-| `Cost_of_Maintenance` | DECIMAL(5,2) | | Total cost of the work |
-| `Maintenance_Request_ID` | INT | FK → Maintenance_Request(Request_ID) | The originating request |
-| `Performed_by_Staff_ID` | INT | FK → Staff(Staff_ID) | Staff member who performed the work |
-| `Item_ID` | INT | FK → Equipment_Item(Item_ID) | The item that was serviced |
-
----
-
-### Table: `Maintenance_Part`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Maintenance_Part_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for this part-usage record |
-| `Quantity_Used` | INT | NOT NULL | Number of parts consumed |
-| `Maintenance_Log_ID` | INT | FK → Maintenance_Log(Log_ID) | The log entry where the part was used |
-| `Part_ID` | INT | FK → Part(Part_ID) | The part that was consumed |
-
----
-
-### Table: `Part`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Part_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for each part |
-| `Part_Name` | VARCHAR(45) | NOT NULL | Name of the part |
-| `Part_Unit_Cost` | DECIMAL(5,2) | NOT NULL | Cost per unit |
-| `Part_Stock_Quantity` | INT | NOT NULL | Current quantity in stock |
-| `Supplier_ID` | INT | FK → Supplier(Supplier_ID) | The supplier who provides this part |
-
----
-
-### Table: `Supplier`
-
-| Column | Data Type | Constraints | Description |
-|--------|-----------|-------------|-------------|
-| `Supplier_ID` | INT | PK, AUTO_INCREMENT | Unique identifier for the supplier |
-| `Supplier_Name` | VARCHAR(50) | NOT NULL | Supplier's business name |
-| `Supplier_Contact_F_name` | VARCHAR(45) | | Contact person's first name |
-| `Supplier_Contact_L_name` | VARCHAR(45) | | Contact person's last name |
-| `Supplier_Phone` | VARCHAR(45) | | Supplier's phone number |
-| `Supplier_Email` | VARCHAR(30) | | Supplier's email address |
-| `Supplier_Address` | VARCHAR(45) | | Supplier's mailing address |
+![Customer Table](table_customer.png)
+![Member Table](table_member.png)
+![Guest Table](table_guest.png)
+![Staff Table](table_staff.png)
+![Trip Type Table](table_triptype.png)
+![Trip Prerequisite Table](table_tripprerequisite.png)
+![Scheduled Trip Table](table_scheduledtrip.png)
+![Registration Table](table_registration.png)
+![Equipment Type Table](table_equipmenttype.png)
+![Equipment Item Table](table_equipmentitem.png)
+![Rental Agreement Table](table_rentalagreement.png)
+![Rental Agreement Item Table](table_rentalagreementitem.png)
+![Maintenance Request Table](table_maintenancerequest.png)
+![Maintenance Log Table](table_maintenancelog.png)
+![Maintenance Part Table](table_maintenancepart.png)
+![Part Table](table_part.png)
+![Supplier Table](table_supplier.png)
 
 ---
 
