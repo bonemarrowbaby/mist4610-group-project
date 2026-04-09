@@ -12,7 +12,7 @@ University of Georgia — Terry College of Business | Spring 2026
 3. [Data Model](#data-model)
 4. [Data Model Description](#data-model-description)
 5. [Data Dictionary](#data-dictionary)
-6. [Sample Queries](#sample-queries)
+6. [Queries](#queries)
 7. [Database Setup Instructions](#database-setup-instructions)
 
 ---
