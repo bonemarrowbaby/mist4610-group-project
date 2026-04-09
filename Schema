@@ -168,8 +168,8 @@ CREATE TABLE Rental_Agreement (
 CREATE TABLE Rental_Agreement_has_Equipment_Item (
     Rental_Agreement_Agreement_ID   INT         NOT NULL,
     Equipment_Item_Item_ID          INT         NOT NULL,
-    Expected_return_date            VARCHAR(45),
-    Actual_return_date              VARCHAR(45),
+    Expected_return_date  DATE,
+Actual_return_date    DATE,
     CONSTRAINT pk_RentAgrEqItem PRIMARY KEY (Rental_Agreement_Agreement_ID, Equipment_Item_Item_ID),
     CONSTRAINT fk_RentAgrEq_Agreement FOREIGN KEY (Rental_Agreement_Agreement_ID)
         REFERENCES Rental_Agreement(Agreement_ID),
