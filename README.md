@@ -34,11 +34,12 @@ The Wilderness Exploration Society (WES) at Peachtree State University is an out
 
 ## Team Members
 
-| Name | 
-| [Haylesh Fernandez]
-| [Italia Roman]
-| [Zain Naseer]
-| [Alden Majors]
+| Name               |
+|--------------------|
+| Haylesh Fernandez  |
+| Italia Roman       |
+| Zain Naseer        |
+| Alden Majors       |
 
 ---
 
@@ -65,10 +66,10 @@ Equipment is tracked at two levels: `Equipment_Type` defines the category with t
 ### Rental Agreements & Rental Items
 When a customer rents equipment, a `Rental_Agreement` is created with a rental date and managing staff member. The bridge table `Rental_Agreement_has_Equipment_Item` links each agreement to one or more individual equipment items, recording expected and actual return dates per item.
 
-### Maintenance Requests, Logs & Parts
+### Maintenance Requests, Logs & Parts - Extension
 Equipment issues are filed as `Maintenance_Request` records linked to a specific item and assigned staff member, with priority and status tracking. Work performed is logged in `Maintenance_Log` (date, description, outcome, cost, performing staff, and item). Parts consumed are recorded in `Maintenance_Part`, bridging a log entry to a `Part` and quantity used.
 
-### Suppliers & Parts
+### Suppliers & Parts - Extension 
 `Supplier` stores vendor contact information. `Part` tracks individual parts with unit cost, stock quantity, and a link to the supplying vendor.
 
 ---
