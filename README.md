@@ -28,7 +28,10 @@ The Wilderness Exploration Society (WES) at Peachtree State University is an out
 - Rental agreement processing with per-item return date tracking
 - Equipment maintenance requests, maintenance logs, and parts usage
 - Supplier and parts inventory management
-- Staff assignment to trips, rental agreements, and maintenance work
+- Staff assignment to trips and rental agreements
+- Staff assignment to maintenance work – Extension
+- Maintenance requests, logs, and parts tracking – Extension
+- Suppliers and parts inventory details – Extension
 
 ---
 
